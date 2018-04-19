@@ -1,2 +1,3 @@
 # SamRepo
-Sample Spring Boot Application
+Sample Spring Boot Applications
+References of various spring components
