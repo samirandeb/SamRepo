@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="layout :: head-section"></head>
+<script th:src="@{/js/dashboard.js}"></script>
+<body>
+	<div class="container" style="width: 100%;">
+
+		<div th:replace="layout :: navigation"></div>
+
+		<div class="panel with-nav-tabs panel-primary">
+
+			<div class="panel-heading">
+				<ul class="nav nav-tabs">
+					<li class="active"><a data-toggle="tab" href="#applicationsView" >Application Component/CI</a></li>
+					<li><a data-toggle="tab" href="#exportView" >Export</a></li>
+
+				</ul>
+			</div>
+
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="applicationsView" style="padding: 5px;" >
+					<table id="applications" class="table table-striped table-bordered" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Application Name</th>
+								<th>Application Type</th>
+								<th>Questions Answered</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="app,stat : ${apps}">
+								<td th:text="${stat.index+1}"></td>
+								<td><a th:text="${app.name}" th:href="@{./application}+'/'+${app.name}"></a></td>
+								<td th:text="${app.type}"></td>
+								<td th:text="${app.answered+ ' of '+app.questions}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="tab-pane fade" id="exportView" style="padding: 5px;" >
+					<table id="exportTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th style="width:200px">Application Name</th>
+								<th>Type</th>
+								<th>Question</th>
+								<th>Answer</th>
+								<th>Version</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="item : ${exportResponses}">
+								<td th:text="${item.application}">app name</td>
+								<td th:text="${item.question.appType}">type</td>
+								<td th:text="${item.question.question}">question</td>
+								<td th:text="${item.response}">answer</td>
+								<td th:text="${item.version}">version</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head th:replace="layout :: head-section"></head>
+
+<body>
+
+	<form th:action="@{/save}" id="assessmentForm"	th:object="${questionResponse}" method="post">
+		<div class="container" style="width: 100%">
+
+			<div th:replace="layout :: navigation"></div>
+
+			<div class="panel with-nav-tabs panel-primary">
+		        <div class="input-group">
+		           <span class="input-group-addon primary"><strong>Application Component/CI</strong></span>
+		           <input id="appName" class="form-control alphaNumeric" type="text"
+						th:readonly="${!#strings.isEmpty(questionResponse.applicationName)}"
+						th:value="${questionResponse.applicationName}"
+						th:field="${questionResponse.applicationName}" required="required" />
+		        </div>
+		    </div>
+
+
+			<div style="float:right;margin-top: -20px;">
+				<b style="color: red">* </b><i style="color: red">mandatory  &nbsp;&nbsp;&nbsp;</i>
+				<b style="color: blue">$ </b><i style="color: blue">required for estimation &nbsp;&nbsp;&nbsp;</i>
+				<b style="color: green"># </b><i style="color: green">good to have</i>
+			</div>
+
+
+			<div class="panel with-nav-tabs panel-primary">
+
+				<div class="panel-heading">
+					<ul class="nav nav-tabs">
+						<li th:each="element,mStat : ${questionResponse.questionGruopList}" th:classappend="${mStat.index}==0?'active':''">
+							<a data-toggle="tab" th:href="${'#'+#strings.replace(element.groupName,' ','_')}" th:text="${element.groupName}">Add</a>
+						</li>
+						<li style="float:right;">
+							<button type="submit" class="btn btn-primary btn-warning" style="float: right;"><strong>Save Information</strong></button>
+						</li>
+					</ul>
+				</div>
+
+				<div class="tab-content" >
+
+					<div
+						th:each="element,mStat : ${questionResponse.questionGruopList}"
+						th:id="${#strings.replace(element.groupName,' ','_')}"
+						class="tab-pane fade"
+						th:classappend="${mStat.index}==0?' in active':''">
+
+						<table class="table table-striped">
+							<thead class="thead-inverse">
+								<tr>
+									<!-- <th width="30">QID</th> -->
+									<th width="45%">Question</th>
+									<th colspan="2">Response</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="q,stat :  ${element.responses}" >
+									<!-- <td width="30" th:text="${q.question.id}"  ></td> -->
+									<td width="45%" th:text="${q.question.question}" th:class="${q.question.iteration==0}? primary : (${q.question.iteration==1}? primary : (${q.question.iteration==2}? secondary : tertiary))"></td>
+									<td th:if="${q.question.respType == 'text'}" th:attrappend="colspan=${!#strings.isEmpty(q.question.versionType)}?1:2">
+										<input class="form-control alphaNumeric" type="text" th:value="${q.question.response}"
+										th:field="${questionResponse.questionGruopList[__${mStat.index}__].responses[__${stat.index}__].response}" />
+									</td>
+
+									<td th:if="${q.question.respType == 'combo' || q.question.respType == 'dropdown'}"
+										th:attrappend="colspan=${!#strings.isEmpty(q.question.versionType)}?1:2">
+
+										<select  th:if="${!#strings.isEmpty(q.question.respDropdownValue)}" class="form-control selectpicker" data-size="5"  data-live-search="true" data-show-subtext="true"
+											th:field="${questionResponse.questionGruopList[__${mStat.index}__].responses[__${stat.index}__].response}"
+											th:onchange="'showOption(this.value,+\'' + ${q.question.id} + '\');'" >
+											<option th:value="null" th:text="--SELECT--" />
+											<option th:each="value : ${#strings.arraySplit(q.question.respDropdownValue , ';')}" th:value="${value}" th:text="${value}" />
+										</select>
+
+									</td>
+
+									<td th:if="${q.question.versionType=='text'}"><input
+										class="form-control" type="number" step=".01" min="0"
+										placeholder="Version" th:value="${q.version}"
+										th:field="${questionResponse.questionGruopList[__${mStat.index}__].responses[__${stat.index}__].version}" title="Enter number upto two decimal places"/></td>
+									<td th:if="${q.question.versionType=='dropdown'}"><input
+										class="form-control" type="text" th:id="'_'+${q.question.id}"
+										th:value="${q.version}" readonly="true" th:field="${questionResponse.questionGruopList[__${mStat.index}__].responses[__${stat.index}__].version}" /> <select
+										th:each="versionInfo : ${q.question.valueMap}"
+										th:if="${!#strings.isEmpty(versionInfo.value)}"
+										style="display: none;"
+										th:id="${#strings.replace(versionInfo.key,' ','_')}+'_'+${q.question.id}"
+										class="form-control" data-show-subtext="true"
+										th:field="${questionResponse.questionGruopList[__${mStat.index}__].responses[__${stat.index}__].version}"
+										disabled="disabled">
+											<option th:value="null"
+												th:text="${'Select '+versionInfo.key +' Version'}" />
+											<option
+												th:each="value : ${#strings.arraySplit(versionInfo.value , ',')}"
+												th:value="${value}" th:text="${value}" />
+									</select> <input type="number" step=".01" min="0"
+										th:attrappend="placeholder='\''+${versionInfo.key}+'\' version'"
+										th:each="versionInfo : ${q.question.valueMap}"
+										th:if="${#strings.isEmpty(versionInfo.value)}"
+										style="display: none;"
+										th:id="${#strings.replace(versionInfo.key,' ','_')}+'_'+${q.question.id}"
+										class="form-control" data-show-subtext="true"
+										th:field="${questionResponse.questionGruopList[__${mStat.index}__].responses[__${stat.index}__].version}"
+										disabled="disabled" title="Enter number upto two decimal places"/></td>
+
+									<input class="form-control" type="hidden" th:value="${q.id}"
+										th:field="${questionResponse.questionGruopList[__${mStat.index}__].responses[__${stat.index}__].id}" />
+									<input class="form-control" type="hidden"
+										th:value="${q.question.id}"
+										th:field="${questionResponse.questionGruopList[__${mStat.index}__].responses[__${stat.index}__].question.id}" />
+									<input class="form-control" type="hidden"
+										th:value="${q.question.appType}"
+										th:field="${questionResponse.questionGruopList[__${mStat.index}__].responses[__${stat.index}__].question.appType}" />
+									<input class="form-control" type="hidden"
+										th:value="${q.question.infoType}"
+										th:field="${questionResponse.questionGruopList[__${mStat.index}__].responses[__${stat.index}__].question.infoType}" />
+									<input class="form-control" type="hidden"
+										th:value="${q.question.question}"
+										th:field="${questionResponse.questionGruopList[__${mStat.index}__].responses[__${stat.index}__].question.question}" />
+									<input class="form-control" type="hidden"
+										th:value="${q.question.respType}"
+										th:field="${questionResponse.questionGruopList[__${mStat.index}__].responses[__${stat.index}__].question.respType}" />
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</form>
+<style>
+.tab-pane{
+	  max-height:460px;
+	  overflow-y:scroll;
+	  width:100%;
+	  min-height: 300px;
+}
+</style>
+</body>
+</html>

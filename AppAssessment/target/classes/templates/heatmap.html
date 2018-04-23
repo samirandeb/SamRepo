@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head th:replace="layout :: head-section"></head>
+
+<body>
+
+	<div class="container" style="width: 100%;">
+
+		<div th:replace="layout :: navigation"></div>
+
+		<div class="panel with-nav-tabs panel-primary">
+
+			<div class="panel-heading">
+				<ul class="nav nav-tabs">
+					<li class="active"><a data-toggle="tab" href="#tabularView" onclick="clearChartData()">Tabular</a></li>
+					<li><a data-toggle="tab" href="#chartView" onclick="loadChartData()">Graphical</a></li>
+
+				</ul>
+			</div>
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="tabularView" style="padding: 5px;" >
+					<table id="heatmap" class="table table-striped table-bordered" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th width="20%">Application Component/CI</th>
+								<th width="10%">Type</th>
+								<th title="Technology Heatmap">Technology and Currency Debt Score</th>
+							</tr>
+						</thead>
+						<tr th:each="hm,stat : ${heatmap}">
+							<td th:text="${hm.applicationName}"></td>
+							<td th:text="${hm.type}"></td>
+							<td>
+								<table border="1" width="100%">
+									<tr>
+										<td th:each="instance : ${hm.heatmap}" th:text="${instance.key+' ('+instance.value+')'}" th:class="${instance.value&gt;70}? high : (${instance.value&lt;30}?low: moderate) "></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id="chartView"></div>
+			</div>
+		</div>
+
+
+	</div>
+	<script th:src="@{/js/heat.js}"></script>
+	
+</body>
+</html>

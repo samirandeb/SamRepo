@@ -1,0 +1,73 @@
+scoreCardQuestion:
+  plQuestions:
+    - 7
+    - 8
+    - 146
+    - 180
+  dbQuestions:
+    - 69
+    - 70
+    - 88
+    - 157
+    - 188
+    - 240
+  serverQuestions:
+    - 9
+    - 136
+    - 178
+  osQuestions:
+    - 72
+  jmsQuestions:
+    - 37
+  presentationLayerQuestions:
+    - 38
+    - 39
+    - 147
+  jsQuestions:
+    - 41
+  dataAccessQuestions:
+    - 43
+    - 148
+  applicationFrameworkQuestions:
+    - 23
+    - 45
+    - 46
+    - 151
+  loggingQuestions:
+    - 50
+  booleanQuestions:
+    - 171
+    - 173
+    - 223
+    - 225
+    
+heatmapQuestions:
+  javaQuestions:
+    - 7
+    - 8
+    - 9
+    - 23
+    - 38
+    - 39
+    - 41
+    - 43
+    - 45
+    - 69
+    - 70
+  msQuestions:
+    - 136
+    - 146
+    - 147
+    - 148
+    - 150
+    - 151
+    - 157
+    - 180
+    - 188
+    - 240
+  dbQuestions:
+    - 88
+    
+exportQuestionMaster:
+  questions:
+  
