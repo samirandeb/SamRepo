@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Sam Spring Reactive Web Demo</title>
+
+    <link data-th-href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link data-th-href="@{/css/sam.css}" rel="stylesheet">
+    
+	<script data-th-inline="javascript">
+
+        function GetStockTransactions () {
+        	//var stockTransactionTable = document.getElementById("stockData");
+            var sourceUrl = "stocks";
+
+            if(typeof(EventSource) !== "undefined") {
+        	    var source = new EventSource(sourceUrl);
+        	    source.onmessage = function(event) {
+        	    	//console.log(event.data);
+        	    	
+        	    	var stocks = JSON.parse(event.data);
+        	    	
+        	    	//console.log("stocks:",stocks);
+        	    	
+        	    	if(stocks.user == 'Soumik') {
+        	    		var row = document.getElementById("soumikStock").tBodies.item(0).insertRow(0);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+
+                        cell1.innerHTML = stocks.stock.name;
+                        cell2.className = "price";
+                        cell2.innerHTML = stocks.stock.price;
+                        var event = new Date(Date.parse(stocks.when));
+                        cell3.innerHTML = event.toLocaleString();        	    		
+        	    	} else if(stocks.user == 'Samiran') {
+        	    		var row = document.getElementById("samiranStock").tBodies.item(0).insertRow(0);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+
+                        cell1.innerHTML = stocks.stock.name;
+                        cell2.className = "price";
+                        cell2.innerHTML = stocks.stock.price;                        
+                        var event = new Date(Date.parse(stocks.when));
+                        cell3.innerHTML = event.toLocaleString();        	    		
+        	    	} else if(stocks.user == 'Atanu') {
+        	    		var row = document.getElementById("atanuStock").tBodies.item(0).insertRow(0);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+
+                        cell1.innerHTML = stocks.stock.name;
+                        cell2.className = "price";
+                        cell2.innerHTML = stocks.stock.price;
+                        var event = new Date(Date.parse(stocks.when));
+                        cell3.innerHTML = event.toLocaleString();        	    		
+        	    	}      	    	
+        	    	
+        	    };
+        	} else {
+        		stockTransactionTable.innerHTML = "Your browser does not support server-sent events.";
+        	}
+        }
+        GetStockTransactions();
+
+    </script>
+
+</head>
+<body style="background-color: #FFFFFF">
+
+    <div class="container">
+		<h3><a href="stockdash" title="{(click to REFRESH..)}">Spring Reactive Web Demo - STOCK DASHBOARD</a></h3>
+		
+	        <div class="scrollAuto">            
+	            <div class="col-md-4">
+	                <table id="soumikStock" class="table table-striped">
+	                    <thead>
+	                        <tr><th colspan="3">Soumik's Portfolio</th></tr>
+	                    </thead>
+	                    <tbody>
+	                        <tr>
+	                        </tr>
+	                    </tbody>
+	                </table>
+	            </div>            
+	            <div class="col-md-4">
+	                <table id="samiranStock" class="table table-striped">
+	                    <thead>
+	                        <tr><th colspan="3">Samiran's Portfolio</th></tr>
+	                    </thead>
+	                    <tbody>
+	                        <tr>
+	                        </tr>
+	                    </tbody>
+	                </table>
+	            </div>            
+	            <div class="col-md-4">
+	                <table id="atanuStock" class="table table-striped">
+	                    <thead>
+	                        <tr><th colspan="3">Atanu's Portfolio</th></tr>
+	                    </thead>
+	                    <tbody>
+	                        <tr>
+	                        </tr>
+	                    </tbody>
+	                </table>
+	            </div>
+	        </div>
+    </div>
+
+</body>
+</html>

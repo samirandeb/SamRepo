@@ -1,0 +1,34 @@
+/*
+ * Styles for custom Sam Reactive Web Application
+ */
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    height: 85%;
+	border: 1px solid #ddd
+}
+th {
+    text-align: center;
+    font-size: 1.2em;
+    padding: 8px;
+    background-color: #38836A;
+    color: #FFFFFF;
+}
+
+div.scrollAuto {
+    height: 85%;    
+    overflow-y: auto;
+}
+
+h3 {
+    text-align: center;
+    color: #38836A;
+}
+
+.table > tbody > tr > td.price {
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1em;
+    text-align: left;
+}
