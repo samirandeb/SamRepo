@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.sam.angular.demo</groupId>
+	<artifactId>AngularSpringDemo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<name>AngularSpringDemo</name>
+	<description>Maven Angular 5 Build Demo</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.1.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<appName>frontEndApp</appName>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${appName}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<!-- <version>3.2.0</version> -->
+				<configuration>
+					<webResources>
+						<resource>
+							<!-- this is relative to the pom.xml directory -->
+							<directory>frontendApp/dist</directory>
+							<includes>
+								<include>**/*.ico</include>
+								<include>**/*.js</include>
+								<include>**/*.html</include>
+							</includes>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+			
+			<!-- <plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
+				<executions>
+					<execution>
+						<id>copy-static</id>
+						here the phase you need
+						<phase>compile</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/src/main/resources/static</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/frontendApp/dist</directory>
+									<includes>
+							          <include>**/*.ico</include>
+							          <include>**/*.js</include>
+							        </includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-index</id>
+						here the phase you need
+						<phase>compile</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/src/main/webapp</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/frontendApp/dist</directory>
+									<includes>
+							          <include>**/*.html</include>
+							        </includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin> -->
+			
+			<!-- npm install usin  <<exec-maven-plugin>> -->
+			<!-- <plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>install-npm-dependency</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<executable>npm.cmd</executable>
+							<arguments>
+								<argument>install</argument>
+							</arguments>
+							<workingDirectory>${basedir}/frontendApp</workingDirectory>base directory to execute command
+						</configuration>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>build-aot-distribution</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<executable>npm.cmd</executable>
+							<arguments>
+								<argument>build</argument>
+							</arguments>
+							<workingDirectory>${basedir}/frontendApp</workingDirectory>base directory to execute command
+						</configuration>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>					
+				</executions>
+			</plugin> -->		
+			
+			<!-- npm install usin  <<maven-antrun-plugin>> -->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>install-build</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target name="install-dependencies">
+								<exec executable="cmd" dir="${project.basedir}/frontendApp" failonerror="true" osfamily="windows">
+									<arg line="/c npm install" />
+								</exec>
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>build-dist</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target name="build-dist">
+								<exec executable="cmd" dir="${project.basedir}/frontendApp" failonerror="true" osfamily="windows">
+									<arg line="/c ng build --prod --base-href=frontEndApp" />
+								</exec>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>
