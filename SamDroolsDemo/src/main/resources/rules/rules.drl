@@ -1,0 +1,60 @@
+package rules
+
+import com.sam.drools.model.ApplicationForm
+
+rule "Card Approved" salience 5
+	when 
+		applicationFormObject: ApplicationForm(age >= 30 && salary >= 20000 && creditScore > 700)
+	then
+		applicationFormObject.setStatus("APPROVED");
+		applicationFormObject.setMessage("Your application is Approved");
+	end
+rule "Card Approved-CreditScore-Salary" salience 4
+	when 
+		applicationFormObject: ApplicationForm(salary > 40000 && creditScore > 750)
+	then
+		applicationFormObject.setStatus("APPROVED");
+		applicationFormObject.setMessage("Your application is Approved based on your salary and credit score");
+	end	
+rule "Card Referred-Age" salience 6
+	when 
+		applicationFormObject: ApplicationForm(age < 30 && salary > 20000 && creditScore > 700)
+	then
+		applicationFormObject.setStatus("REFERRED");
+		applicationFormObject.setMessage("Your application is Referred based on age");
+	end
+rule "Card Referred-CreditScore" salience 7
+	when 
+		applicationFormObject: ApplicationForm(age >= 30 && creditScore <= 650)
+	then
+		applicationFormObject.setStatus("REFERRED");
+		applicationFormObject.setMessage("Your application is Referred based on age and credit Score");
+	end
+rule "card Rejected-Age" salience 1
+	when 
+		applicationFormObject: ApplicationForm(age <= 25)
+	then
+		applicationFormObject.setStatus("REJECTED");
+		applicationFormObject.setMessage("Your application is Rejected based on age");
+	end
+rule "card Rejected-CreditScore" salience 2
+	when 
+		applicationFormObject: ApplicationForm(creditScore <= 650)
+	then
+		applicationFormObject.setStatus("REJECTED");
+		applicationFormObject.setMessage("Your application is Rejected based on credit score");
+	end
+rule "card Rejected" salience 3
+	when 
+		applicationFormObject: ApplicationForm(salary <= 20000)
+	then
+		applicationFormObject.setStatus("REJECTED");
+		applicationFormObject.setMessage("Your application is Rejected based on salary");
+	end
+rule "Default" salience 100
+	when 
+		applicationFormObject: ApplicationForm(salary > 0 && age > 0)
+	then
+		applicationFormObject.setStatus("REFERRED");
+		applicationFormObject.setMessage("No decision. Your application is Referred. Currently undergoing underwriting");
+	end	
