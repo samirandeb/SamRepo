@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head-section">
+<title>OMT - Home</title>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.2/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+<link th:href="@{/custom/css/style.css}" rel="stylesheet" />
+<link th:href="@{/custom/css/user.css}" rel="stylesheet" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js" th:src="@{/webjars/jquery/1.11.1/jquery.js}"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/3.3.2/js/bootstrap.min.js}"></script>
+</head>
+<body>
+	<div id="page-content" th:fragment="content">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<h3>User Details</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-1">
+					<div class="thumbnail">
+						<img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+					</div>
+				</div>
+				<div class="col-sm-5">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<strong sec:authentication="name"></strong>
+						</div>
+						<div class="panel-body">Details</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

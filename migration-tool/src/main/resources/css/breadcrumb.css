@@ -1,0 +1,94 @@
+.pagination>li {
+display: inline;
+padding:0px !important;
+margin:0px !important;
+border:none !important;
+}
+select#soflow, select#soflow-color {
+   -webkit-appearance: dropdown;
+   -webkit-border-radius: 2px;
+   -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+   -webkit-padding-end: 20px;
+   -webkit-padding-start: 2px;
+   -webkit-user-select: none;
+   background-image: -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+   background-position: 97% center;
+   background-repeat: no-repeat;
+   border: 1px solid #AAA;
+   color: #555;
+   font-size: inherit;
+   margin: 20px;
+   overflow: hidden;
+   padding: 5px 10px;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   width: 200px;
+}
+
+.breadcrumb {
+    padding: 0px;
+	background: #9bc2e4 !important;
+	list-style: none;
+	overflow: hidden;
+}
+.breadcrumb>li+li:before {
+	padding: 0;
+}
+.breadcrumb li {
+	float: left;
+}
+.breadcrumb li.active span {
+	background: brown;                   /* fallback color */
+	background: #245682;
+}
+.breadcrumb li.completed span {
+	background: brown;                   /* fallback color */
+	background: #1ab394;
+}
+.breadcrumb li.active span:after {
+	border-left: 30px solid #245682 ;
+}
+.breadcrumb li.completed span:after {
+	border-left: 30px solid #1ab394;
+}
+
+.breadcrumb li span {
+	color: white;
+	text-decoration: none;
+	padding: 10px 0 10px 45px;
+	position: relative;
+	display: block;
+	float: left;
+}
+.breadcrumb li span:after {
+	content: " ";
+	display: block;
+	width: 0;
+	height: 0;
+	border-top: 50px solid transparent;           /* Go big on the size, and let overflow hide */
+	border-bottom: 50px solid transparent;
+	border-left: 30px solid hsl(208, 57%, 75%);
+	position: absolute;
+	top: 50%;
+	margin-top: -50px;
+	left: 100%;
+	z-index: 2;
+}
+.breadcrumb li span:before {
+	content: " ";
+	display: block;
+	width: 0;
+	height: 0;
+	border-top: 50px solid transparent;           /* Go big on the size, and let overflow hide */
+	border-bottom: 50px solid transparent;
+	border-left: 30px solid white;
+	position: absolute;
+	top: 50%;
+	margin-top: -50px;
+	margin-left: 1px;
+	left: 100%;
+	z-index: 1;
+}
+.breadcrumb li:first-child span {
+	padding-left: 15px;
+}

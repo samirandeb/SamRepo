@@ -1,0 +1,10 @@
+oipa:
+  sourceRegions:
+    - regionName: DEV
+      regionDescription: TRACK 1
+      nonIvsRegion: false
+
+  destinationRegions:
+    - regionName: DEV_MERGE
+      regionDescription: SANDBOX
+      nonIvsRegion: false

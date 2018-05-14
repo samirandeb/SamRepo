@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head-section">
+<title>OMT - Home</title>
+<meta charset="ISO-8859-1" />
+<title>Insert title here</title>
+</head>
+<body>
+	<div id="filter-content" th:fragment="filters">
+		<div th:if="${not #lists.isEmpty(migrationActivity.selectedRuleTable.filters)}">
+			<div class="col-lg-8">
+				<legend> Filters</legend>
+				<input type="hidden" th:value="${migrationActivity.selectedRuleTable.ruleType}" th:field="${migrationActivity.selectedRuleTable.ruleType}" />
+				<!-- 				<input type="hidden" th:value="${migrationActivity.selectedRuleTable.tableName}" th:field="${migrationActivity.selectedRuleTable.tableName}" />  -->
+				<!-- 				<input type="hidden" th:value="${migrationActivity.selectedRuleTable.idColumn}" th:field="${migrationActivity.selectedRuleTable.idColumn}" /> -->
+				<!-- 				<input type="hidden" th:value="${migrationActivity.selectedRuleTable.idColumn}" th:field="${migrationActivity.selectedRuleTable.idColumn}" /> -->
+				<!-- 				<input type="hidden" th:value="${migrationActivity.selectedRuleTable.idColumn}" th:field="${migrationActivity.selectedRuleTable.idColumn}" /> -->
+			</div>
+			<div class="col-lg-8  form-group" th:each="item,stat :  ${migrationActivity.selectedRuleTable.filters}">
+				<!-- Hidden input for params-->
+				<input type="hidden" th:value="${item.column}" th:field="${migrationActivity.selectedRuleTable.filters[__${stat.index}__].column}" /> <input type="hidden" th:value="${item.description}" th:field="${migrationActivity.selectedRuleTable.filters[__${stat.index}__].description}" /> <label class="col-sm-3 control-label" th:text="${item.description}">Parameter Desc</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" th:value="${item.value}" th:field="${migrationActivity.selectedRuleTable.filters[__${stat.index}__].value}" th:id="${item.column}" />
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

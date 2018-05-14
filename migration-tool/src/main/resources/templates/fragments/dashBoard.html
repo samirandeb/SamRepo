@@ -1,0 +1,22 @@
+<div class="wrapper wrapper-content" id="page-content" th:fragment="content">
+
+	<form id="sourceRegionform" class="form-horizontal" role="form" th:object="${migrationActivity}" th:action="@{/migrateUR}" method="post">
+		<div class="panel with-nav-tabs panel-primary">
+			<div class="panel-heading">
+				<ul class="nav nav-tabs">
+					<li class="active" name="allRegion"><a data-toggle="tab" th:href="@{'#allRegion'}"  th:text="'Migration Status'"></a></li>
+				</ul>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane fade in active" th:id="'allRegion'"></div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<script>
+	
+	</script>
+
+</div>

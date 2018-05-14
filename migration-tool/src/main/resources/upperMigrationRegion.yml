@@ -1,0 +1,23 @@
+region:
+  upperMigrationRegions:
+    - name  : QA
+      description : Integ
+      flagColumn  : QAMIGRATED
+
+    - name  : UAT
+      description : User Acceptance Testing
+      dependentOn :
+          - QAMIGRATED
+      flagColumn  : UATMIGRATED
+
+    - name : PERF
+      description : Performance
+      dependentOn :
+        - QAMIGRATED
+      flagColumn :  PERFMIGRATED
+
+    - name  : PROD
+      description : Production
+      dependentOn :
+        - UATMIGRATED
+      flagColumn  : PRODMIGRATED

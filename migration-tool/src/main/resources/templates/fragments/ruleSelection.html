@@ -1,0 +1,98 @@
+<div class="wrapper wrapper-content" th:fragment="content">
+	<div class="ibox-content">
+		<div th:replace="fragments/partials :: breadcrumb"></div>
+		<form id="sourceRegionform" class="form-horizontal" role="form" th:object="${migrationActivity}" th:action="@{/ivsVersion}" method="post" onsubmit="showWaitScreen()">
+			<input type="hidden" id="selectedRules" th:field="*{selectedRuleGuidList}" /> <br />
+
+			<div class="panel panel-default">
+				<div class="panel-title panel-heading">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="collapsed"><i class="chevron fa fa-fw" ></i>  <strong>Change Filter</strong></a>
+				</div>
+				<div id="collapse1" class="panel-collapse collapse">
+					<div class="panel-body">
+						<div class="col-lg-8 form-group" id="ruleTypeOption">
+							<label class="control-label col-sm-2" for="name">Rule Type</label>
+							<div class="col-sm-8">
+								<select class="selectpicker show-tick" title="Select Type" id="selectType">
+									<option th:each="table : ${allRuleTables}" th:value="${table.key}" th:text="${table.value.tableName}" th:attr="data-subtext=${table.key}" th:if="${!#strings.isEmpty(table.value.tableName)}">Tables</option>
+								</select>
+							</div>
+						</div>
+						<div id="filterSection"></div>
+						<div class="row" id="changeButton" style="display: none;">
+							<div style="margin-right: 10%;" class="form-group">
+								<ul class="list-inline pull-right">
+									<li><a class="btn btn-primary next-step" id="searchRule" th:onclick="'changeRulesForMigration()'"><i class="fa fa-search"></i>&nbsp;&nbsp;Search&nbsp;&nbsp;&nbsp;</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="panel panel-default">
+				<div class="panel-title panel-heading">
+					<div class=""><strong>  Rules</strong></div>
+				</div>
+				<div id="rulesSection" class="panel-collapse collapse in">
+					<div class="panel-body">
+						<div id="ruleSelectionData">
+				<table id="datatable" class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>Select</th>
+							<th th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;RULEGUID&quot;)}">Rule GUID</th>
+							<th th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;RULENAME&quot;)}">Rule Name</th>
+							<th th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;RULETYPE&quot;)}">Rule Type</th>
+							<th th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;PLANGUID&quot;)}">Plan</th>
+							<th th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;COMPANYGUID&quot;)}">Company</th>
+							<th th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;NOTE&quot;)}">Note</th>
+						</tr>
+					</thead>
+					<!-- <tfoot>
+								<tr>
+									<th>Select</th>
+									<th th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;RULEGUID&quot;)}">Rule GUID</th>
+									<th th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;RULENAME&quot;)}">Rule Name</th>
+									<th th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;PLANGUID&quot;)}">Plan</th>
+									<th th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;COMPANYGUID&quot;)}">Company</th>
+								</tr>
+							</tfoot> -->
+					<tbody>
+
+						<tr th:each="rule :  ${migrationActivity.rules}">
+							<td><input type="checkbox" class="selectRule" th:id="${rule.ruleGuid}" th:value="${rule.ruleGuid}" th:onclick="'updateRuleSelection(\'' + ${rule.ruleGuid} + '\',this.id)'" /></td>
+							<td th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;RULEGUID&quot;)}" th:text="${rule.ruleGuid}"></td>
+							<td th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;RULENAME&quot;)}" th:text="${rule.ruleName}"></td>
+							<td th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;RULETYPE&quot;)}" th:text="${rule.ruleType}"></td>
+							<td th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;PLANGUID&quot;)}" th:text="${rule.planGuid}"></td>
+							<td th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;COMPANYGUID&quot;)}" th:text="${rule.companyGuid}"></td>
+							<td th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;NOTE&quot;)}" th:text="${rule.note}"></td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+						
+						
+					</div>
+				</div>
+			</div>
+
+			
+			<div class="container">
+				<div class="row">
+					<div style="margin-right: 10%;" class="form-group">
+						<ul class="list-inline pull-right">
+							<li><a class="btn btn-primary next-step" href="sourceSelection"><i class="fa fa-chevron-circle-left"></i>&nbsp;&nbsp;Previous&nbsp;&nbsp;&nbsp;</a></li>
+							<li><a class="btn btn-primary next-step" th:onclick="'selectedRulesForMigration()'"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add To List&nbsp;</a></li>
+							<li><button type="submit" class="btn btn-primary next-step" th:disabled="${#lists.isEmpty(migrationActivity.rulesForMigration)}" id="btnGotoVersionSelection">
+									&nbsp;Next&nbsp;(<span id="ruleCount"  th:text="${#lists.size(migrationActivity.rulesForMigration)}"></span>)&nbsp;&nbsp;<i class="fa fa-chevron-circle-right"></i>
+								</button></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,99 @@
+table:
+  ruleTables:
+    - ruleType : '-99'
+      visibleColumns:
+        - RULEGUID
+        - RULENAME
+        - RULETYPE
+        - NOTE        
+      selectQuery: OIPA_RULE 
+    - ruleType : '01'
+      tableName : AsBusinessRule
+      idColumn : BUSINESSRULEGUID
+      visibleColumns:
+        - RULEGUID
+        - RULENAME
+        - PLANGUID
+        - COMPANYGUID
+      updateColumns:
+        - XMLDATA
+        - XMLSCHEMA
+      selectQuery: SELECT BUSINESSRULEGUID RULEGUID,RULENAME,PLANGUID,COMPANYGUID FROM ASBUSINESSRULES WHERE 1=1
+      updateQuery: UPDATE ASBUSINESSRULES SET XMLDATA = ?,XMLSCHEMA=? WHERE BUSINESSRULEGUID = ?
+      filters:
+        - column  : RULENAME
+          description : Rule Name
+        - column  : PLANGUID
+          description : Plan GUID
+        - column  : COMPANYGUID
+          description : Company GUID
+
+    - ruleType : '02'
+      tableName : AsTransaction
+      idColumn : TransactionGUID
+      visibleColumns:
+        - RULEGUID
+        - RULENAME
+        - PLANGUID
+      updateColumns:
+        - XMLDATA
+      selectQuery: SELECT TRANSACTIONGUID RULEGUID,TRANSACTIONNAME RULENAME,PLANGUID,NULL COMPANYGUID FROM ASTRANSACTION WHERE 1=1
+      updateQuery: UPDATE ASTRANSACTION SET XMLDATA = ? WHERE TRANSACTIONGUID = ?
+      filters:
+        - column  : TRANSACTIONNAME
+          description : Transaction Name
+        - column  : PLANGUID
+          description : Plan GUID
+
+    - ruleType : '03'
+      tableName : AsSegmentName
+      idColumn : SEGMENTNAMEGUID
+      visibleColumns:
+        - RULEGUID
+        - RULENAME
+        - PLANGUID
+      updateColumns:
+        - XMLDATA
+      selectQuery: SELECT SEGMENTNAMEGUID RULEGUID,SEGMENTNAME RULENAME,PLANGUID,NULL COMPANYGUID FROM ASSEGMENTNAME WHERE 1=1
+      updateQuery: UPDATE ASSEGMENTNAME SET XMLDATA = ? WHERE SEGMENTNAMEGUID = ?
+      filters:
+        - column  : SEGMENTNAME
+          description : Segment Name
+        - column  : PLANGUID
+          description : Plan GUID
+    - ruleType : '05'
+      tableName : AsInquiryScreen
+      idColumn : INQUIRYSCREENGUID
+      visibleColumns:
+        - RULEGUID
+        - RULENAME
+        - PLANGUID
+        - COMPANYGUID
+      updateColumns:
+        - XMLDATA
+      selectQuery: SELECT INQUIRYSCREENGUID RULEGUID,SCREENNAME RULENAME,PLANGUID,COMPANYGUID FROM ASINQUIRYSCREEN WHERE 1=1
+      updateQuery: UPDATE ASINQUIRYSCREEN SET XMLDATA = ? WHERE INQUIRYSCREENGUID = ?
+      filters:
+        - column  : SCREENNAME
+          description : Screen Name
+        - column  : PLANGUID
+          description : Plan GUID
+        - column  : COMPANYGUID
+          description : Company GUID
+    - ruleType : '06'
+      tableName : AsFile
+      idColumn : FileGuid
+      visibleColumns:
+        - RULEGUID
+        - RULENAME
+        - COMPANYGUID
+      updateColumns:
+        - XMLDATA
+        - XSLT
+      selectQuery: SELECT FILEGUID RULEGUID,FILEID RULENAME,NULL PLANGUID,COMPANYGUID FROM ASFILE WHERE 1=1
+      updateQuery: UPDATE ASFILE SET XMLDATA = ?,XSLT=? WHERE FILEGUID = ?
+      filters:
+        - column  : FILEID
+          description : File ID
+        - column  : COMPANYGUID
+          description : Company GUID

@@ -1,0 +1,323 @@
+<div id="filter-content" th:fragment="filters">
+	<div th:if="${not #lists.isEmpty(migrationActivity.selectedRuleTable.filters)}">
+		<div class="col-lg-8">
+			<legend> Filters</legend>
+			<input type="hidden" th:value="${migrationActivity.selectedRuleTable.ruleType}" th:field="${migrationActivity.selectedRuleTable.ruleType}" />
+			<!-- 				<input type="hidden" th:value="${migrationActivity.selectedRuleTable.tableName}" th:field="${migrationActivity.selectedRuleTable.tableName}" />  -->
+			<!-- 				<input type="hidden" th:value="${migrationActivity.selectedRuleTable.idColumn}" th:field="${migrationActivity.selectedRuleTable.idColumn}" /> -->
+			<!-- 				<input type="hidden" th:value="${migrationActivity.selectedRuleTable.idColumn}" th:field="${migrationActivity.selectedRuleTable.idColumn}" /> -->
+			<!-- 				<input type="hidden" th:value="${migrationActivity.selectedRuleTable.idColumn}" th:field="${migrationActivity.selectedRuleTable.idColumn}" /> -->
+		</div>
+		<div class="col-lg-8  form-group" th:each="item,stat :  ${migrationActivity.selectedRuleTable.filters}">
+			<!-- Hidden input for params-->
+			<input type="hidden" th:value="${item.column}" th:field="${migrationActivity.selectedRuleTable.filters[__${stat.index}__].column}" /> <input type="hidden" th:value="${item.description}" th:field="${migrationActivity.selectedRuleTable.filters[__${stat.index}__].description}" /> <label class="col-sm-3 control-label" th:text="${item.description}">Parameter Desc</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" th:value="${item.value}" th:field="${migrationActivity.selectedRuleTable.filters[__${stat.index}__].value}" th:id="${item.column}" />
+			</div>
+		</div>
+	</div>
+</div>
+<!-- IVS versions -->
+<div th:fragment="ivsVersions">
+	<table id="datatableVersion" class="table table-striped table-bordered nowrap" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>Select</th>
+				<th>Version Number</th>
+				<th>Author</th>
+				<th>Updated On</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th>Select</th>
+				<th>Version Number</th>
+				<th>Author</th>
+				<th>Updated On</th>
+			</tr>
+		</tfoot>
+		<tbody>
+
+			<tr th:each="ivsVersion : ${ivsVersions}">
+				<td><input type="radio" class="selectRule" name="version" th:value="${ivsVersion.versionGuid}" th:checked="${ivsVersion.versionNumber} == ${selectedVersion}" th:onclick="'updateVersion(\'' + ${ivsVersion.ruleGuid} + '\',
+					\'' + ${ivsVersion.versionGuid} + '\',
+					\'' + ${ivsVersion.lastModifiedBy} + '\',
+					\'' + ${ivsVersion.lastModifiedGMT} + '\',
+					\'' + ${ivsVersion.versionNumber} + '\',
+					\'' + ${ivsVersions[0].versionNumber} + '\'
+					)'"  /></td>
+				<td th:text="${ivsVersion.versionNumber}"></td>
+				<td th:text="${ivsVersion.lastModifiedBy}"></td>
+				<td th:text="${ivsVersion.lastModifiedGMT}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<!-- BreadCrumb-->
+<div th:fragment="breadcrumb">
+	<ul class="breadcrumb">
+		<li th:each="task : ${allTasks}" th:classappend="${currentTask}==${task}? 'active' :  ( ${#lists.contains( completedTasks , task )} ? 'completed' : '')"><span th:text="${task}"></span></li>
+	</ul>
+</div>
+
+<div th:fragment="success">SUCCESS</div>
+
+<!-- Data Table for Upper Region -->
+<div th:fragment="upperRegionMigration">
+	<h3 th:text="${region + ' Migration'}"></h3>
+	<div class="alert alert-danger" th:if="!${regionConfigured}">
+		<span class="glyphicon glyphicon-warning-sign"></span><strong>&nbsp;'<span th:text="${region}"></span>'
+		</strong> region not configured
+	</div>
+	<table th:id="${regionDataTableID}" class="table table-striped table-bordered" cellspacing="0">
+		<thead>
+			<tr>
+				<th>Select</th>
+				<th>Audit Id</th>
+				<th>Rule Type</th>
+				<th>Rule Guid</th>
+				<th>Rule Name</th>
+				<th>Region</th>
+				<th>Version</th>
+				<th>Reason</th>
+				<th>Migrated By</th>
+				<th>Migrated On</th>
+				<th th:if="${regionConfigured}">Diff</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="audit,stat :  ${migrationActivity.auditList}">
+				<td><input th:type="checkbox" th:id="${audit.id}" th:onclick="'updateRuleSelection(\'' + ${audit.id}+ '\',this.id)'" /></td>
+				<td th:text="${audit.auditId}"></td>
+				<td th:text="${audit.ruleType}"></td>
+				<td th:text="${#strings.abbreviate(audit.ruleGuid,10)}" th:title="${audit.ruleGuid}"></td>
+				<td th:text="${audit.ruleName}"></td>
+				<td th:text="${audit.targetRegion}"></td>
+				<td th:text="${audit.targetVersion}"></td>
+				<td th:text="${audit.reason}"></td>
+				<td th:text="${audit.migratedBy}"></td>
+				<td th:text="${audit.migratedOn}"></td>
+				<td th:if="${regionConfigured}">
+					<!-- event handler written at ivsVersion.js -->
+					<div class="btn btn-primary btn-xs" data-title="View Comparison" th:onclick="'viewDiff(\'' + ${audit.ruleGuid} + '\'
+												,\'' + ${audit.ruleName} + '\'
+												,\'' + ${audit.ruleType} + '\'
+												,\'' + ${audit.targetVersion} + '\')'">
+						<span class="glyphicon glyphicon-search"></span>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="container">
+		<div style="margin-right: 10%;" class="form-group">
+			<ul class="list-inline pull-right">
+				<li><button type="submit" class="btn btn-primary next-step" th:disabled="!${regionConfigured}">
+						&nbsp;Migrate&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-circle-right"></i>
+					</button></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<!-- Changes for filter toggle -->
+<div th:fragment="ruleSelectionData">
+	<table id="datatable" class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<th>Select</th>
+				<th th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;RULEGUID&quot;)}">Rule GUID</th>
+				<th th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;RULENAME&quot;)}">Rule Name</th>
+				<th th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;RULETYPE&quot;)}">Rule Type</th>
+				<th th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;PLANGUID&quot;)}">Plan</th>
+				<th th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;COMPANYGUID&quot;)}">Company</th>
+				<th th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;NOTE&quot;)}">Note</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr th:each="rule :  ${migrationActivity.rules}">
+				<td><input type="checkbox" class="selectRule" th:id="${rule.ruleGuid}" th:value="${rule.ruleGuid}" th:onclick="'updateRuleSelection(\'' + ${rule.ruleGuid} + '\',this.id)'" /></td>
+				<td th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;RULEGUID&quot;)}" th:text="${rule.ruleGuid}"></td>
+				<td th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;RULENAME&quot;)}" th:text="${rule.ruleName}"></td>
+				<td th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;RULETYPE&quot;)}" th:text="${rule.ruleType}"></td>
+				<td th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;PLANGUID&quot;)}" th:text="${rule.planGuid}"></td>
+				<td th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;COMPANYGUID&quot;)}" th:text="${rule.companyGuid}"></td>
+				<td th:if="${#lists.contains(migrationActivity.selectedRuleTable.visibleColumns, &quot;NOTE&quot;)}" th:text="${rule.note}"></td>
+			</tr>
+
+		</tbody>
+	</table>
+</div>
+
+<!-- Dashboard audit table  -->
+<div th:fragment="dashboardTable">
+	<table th:id="${regionHistoryTableID}" class="table table-striped table-bordered compact nowrap hover" cellspacing="0">
+		<thead>
+			<tr>
+				<th>Audit Id</th>
+				<th>Type</th>
+				<th>Rule Guid</th>
+				<th>Rule Name</th>
+				<th>Developer</th>
+				<th>Source</th>
+				<th>Destination</th>
+				<th>Migrated On</th>
+				<th>Reason</th>
+				<th>Migrator</th>
+				<th>QA Move</th>
+				<th>QA Migrator</th>
+				<th>UAT Move</th>
+				<th>UAT Migrator</th>
+				<th>PERF Move</th>
+				<th>PERF Migrator</th>
+				<th>PROD Move</th>
+				<th>PROD Migrator</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="audit,stat :  ${migrationActivity.auditList}">
+				<td th:text="${audit.auditId}"></td>
+				<td th:text="${audit.ruleType}"></td>
+				<td th:text="${#strings.abbreviate(audit.ruleGuid,36)}" th:title="${audit.ruleGuid}"></td>
+				<td th:text="${audit.ruleName}"></td>
+				<td th:text="${audit.developer}"></td>
+				<td th:text="${audit.sourceRegion+'('+ audit.sourceVersion +')'}"></td>
+				<td th:text="${audit.targetRegion+'('+ audit.targetVersion +')'}"></td>
+				<td th:text="${#dates.format(audit.migratedOn, 'dd-MM-YYYY')}"></td>
+				<td th:text="${audit.reason}"></td>
+				<td th:text="${audit.migratedBy}"></td>
+				<td th:text="${audit.qaMigratedOn==null?'':#dates.format(audit.qaMigratedOn, 'dd-MM-YYYY')}"></td>
+				<td th:text="${audit.qaMigratedBy}"></td>
+				<td th:text="${audit.uatMigratedOn==null?'':#dates.format(audit.uatMigratedOn, 'dd-MM-YYYY')}"></td>
+				<td th:text="${audit.uatMigratedBy}"></td>
+				<td th:text="${audit.perfMigratedOn==null?'':#dates.format(audit.perfMigratedOn, 'dd-MM-YYYY')}"></td>
+				<td th:text="${audit.perfMigratedBy}"></td>
+				<td th:text="${audit.prodMigratedOn==null?'':#dates.format(audit.prodMigratedOn, 'dd-MM-YYYY')}"></td>
+				<td th:text="${audit.prodMigratedBy}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div th:fragment="createUpdateUser">
+	<div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</button>
+					<h4 class="modal-title custom_align" id="versionHistoryTitle" th:text="${#strings.isEmpty(newUserForm.user.userId)?'Create New User' : 'Edit User Information'}">User</h4>
+				</div>
+				<div class="modal-body">
+					<div>
+						<div class="panel-body">
+							<form role="form" name="createUserForm" id="createUserForm" th:object="${newUserForm}" th:action="@{/createUser}" method="post" onsubmit="return encryptPassword()">
+								<div id="status"></div>
+								<input type="hidden" name="userId" id="userId" th:value="*{user.userId}" th:field="*{user.userId}" />
+								<div class="row">
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<div class="form-group">
+											<input type="text" required="required" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name" th:field="*{user.firstName}" />
+										</div>
+									</div>
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<div class="form-group">
+											<input type="text" required="required" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name" th:field="*{user.lastName}" />
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<div class="form-group">
+											<input type="email" required="required" name="email" id="email" class="form-control input-sm" placeholder="Email Address" th:field="*{user.email}" />
+										</div>
+									</div>
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<div class="form-group">
+											<input type="text" required="required" name="user_name" id="user_name" class="form-control input-sm" placeholder="Username" th:field="*{user.username}" th:disabled="!${#strings.isEmpty(newUserForm.user.userId)}" />
+										</div>
+									</div>
+								</div>
+
+								<div class="row" th:if="${#strings.isEmpty(newUserForm.user.userId)}">
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<div class="form-group">
+											<input type="password" required="required" id="password_type" class="form-control input-sm" placeholder="Password" /> <input type="hidden" id="password" th:field="*{user.password}" />
+										</div>
+									</div>
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<div class="form-group">
+											<input type="password" required="required" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password" />
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<div class="form-group">
+											<select th:field="*{selectedRole}" class="selectpicker show-tick fullWidth" title="Select Role" required="required" id="selectRole">
+												<option th:each="role : ${allRoles}" th:value="${role.roleId}" th:text="${role.roleDescription}" th:attr="data-subtext=${role.name}">Source</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<div class="form-group">
+											<select th:field="*{user.sourceRegions}" class="selectpicker show-tick fullWidth" title="Source Region" id="selectSource" multiple="true">
+												<option th:each="region : ${allSourceRegions}" th:value="${region.regionName}" th:text="${region.regionDescription}" th:attr="data-subtext=${region.regionName}">Destination</option>
+											</select>
+										</div>
+									</div>
+								</div>
+
+								<input type="submit" th:value="${#strings.isEmpty(newUserForm.user.userId)?'Create New User' : 'Update User Information'}" id="btnCreateUser" class="btn btn-info btn-block" />
+
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</div>
+
+
+<!--  -->
+<div th:fragment="ruleComparison">
+	<input type="hidden" id="rc_ruleName" th:value="${ruleComparisonModel.ruleName}" /> <input type="hidden" id="rc_ruleGuid" th:value="${ruleComparisonModel.ruleGuid}" /> <input type="hidden" id="rc_destinationName" th:value="${ruleComparisonModel.destinationName}" /> <input type="hidden" id="rc_destinationXml" th:value="${ruleComparisonModel.destinationXml}" /> <input type="hidden" id="rc_destinationVersion" th:value="${ruleComparisonModel.destinationVersion}" /> <input type="hidden" id="rc_sourceName" th:value="${ruleComparisonModel.sourceName}" /> <input type="hidden" id="rc_sourceXml" th:value="${ruleComparisonModel.sourceXml}" /> <input type="hidden" id="rc_sourceVersion" th:value="${ruleComparisonModel.sourceVersion}" />
+</div>
+
+<div th:fragment="ruleComparisonModal">
+	<!-- Modal for rule comparison -->
+	<div class="modal fade" id="ruleXmlComparison" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content" style="width: 800px; height: 500px;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</button>
+					<span class="titleHeader"><span id="titleRuleName"></span> - <span id="titleSource" class="sourceRegion"></span>&nbsp;vs.&nbsp;<span id="titleDestination" class="destinationRegion"></span> </span>
+
+				</div>
+				<div class="modal-body" style="overflow: scroll; width: 100%; height: 90%; font-size: small;">
+					<div id="ruleComparison"></div>
+					<div id="ruleComparisonView" style="width: 100%;"></div>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- Form for comparison -->
+	<div style="display: none;">
+		<form role="form" name="ruleCompareForm" id="ruleCompareForm" th:object="${ruleComparisonModel}" th:action="@{/compareRules}" method="post">
+			<input type="hidden" name="compareRuleName" id="compareRuleName" th:field="*{ruleName}" /> <input type="hidden" name="compareRuleGuid" id="compareRuleGuid" th:field="*{ruleGuid}" /> <input type="hidden" name="compareSourceVersion" id="compareSourceVersion" th:field="*{sourceVersion}" /> <input type="hidden" name="compareRuleType" id="compareRuleType" th:field="*{ruleType}" />
+		</form>
+	</div>
+</div>

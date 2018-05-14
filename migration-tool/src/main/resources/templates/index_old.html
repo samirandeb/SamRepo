@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Dashboard</title>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.2/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+
+<script src="http://code.jquery.com/jquery-1.11.1.min.js" th:src="@{/webjars/jquery/1.11.1/jquery.js}"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/3.3.2/js/bootstrap.min.js}"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<div th:fragment="navigation">
+			<div class="navbar navbar-inverse navbar-fixed-top">
+				<div class="navbar-inner">
+					<div class="container-fluid">
+						<div id="searchbar" class="row" style="padding-top: 20px; padding-left: 20px">
+							<a id="home" class="brand" href="#">Heading 1</a>
+							<ul class="nav">
+								<li><a href="#">Heading 2</a></li>
+								<li><a href="#">Heading 3</a></li>
+								<li><a href="#">Heading 4</a></li>
+							</ul>
+							<form class="form-search pull-left" method="get">
+								<div class="input-append">
+									<input type="text" id="searchString" name="searchString" ng-model="ctrl.search" class="search-query input-xxlarge" />
+									<button type="submit" class="btn btn-primary">Search</button>
+								</div>
+							</form>
+							<form method="post" th:action="@{/logout}">
+								<button class="btn btn-primary pull-right" type="submit">Log out</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

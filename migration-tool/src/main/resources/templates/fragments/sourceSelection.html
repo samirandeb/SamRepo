@@ -1,0 +1,116 @@
+<div class="wrapper wrapper-content" th:fragment="content">
+	<div class="ibox-content">
+		<!-- 		<div>
+			<ul class="breadcrumb">
+				<li class="active"><span>Select Region</span></li>
+				<li><span>Rule Selection</span></li>
+				<li><span>Version Selection</span></li>
+				<li><span>Migrate</span></li>
+			</ul>
+		</div> -->
+		<div th:replace="fragments/partials :: breadcrumb"></div>
+		<br />
+		<form id="sourceRegionform" class="form-horizontal" role="form" th:object="${migrationActivity}" th:action="@{/ruleSelection}" method="post">
+			<div class="col-lg-8 form-group">
+				<label class="control-label col-sm-2" for="name">Source</label>
+				<div class="col-sm-8">
+					<select th:field="*{sourceRegion.regionName}" class="selectpicker show-tick" title="Select Source" required="required">
+						<option th:each="region : ${allSourceRegion}" th:value="${region.regionName}" th:text="${region.regionDescription}" th:attr="data-subtext=${region.regionName}">Source</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-lg-8 form-group">
+				<label class="control-label col-sm-2" for="name">Destination</label>
+				<div class="col-sm-8">
+					<select th:field="*{destinationRegion.regionName}" class="selectpicker show-tick" title="Select Destination" required="required">
+						<option th:each="region : ${allDestinationRegion}" th:value="${region.regionName}" th:text="${region.regionDescription}" th:attr="data-subtext=${region.regionName}">Destination</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-lg-8 form-group">
+				<label class="control-label col-sm-2" for="name">Options</label>
+				<div class="col-sm-8">
+					<input type="radio" class="selectRule" name="inputTypeOption" value="file" onchange="showOption('file')" required="required">&nbsp;Upload File</input>
+					<input type="radio" class="selectRule" name="inputTypeOption" value="table" onchange="showOption('table')">&nbsp;Select Table</input>
+					<input type="hidden" class="selectRule" id="inputTypeValue" th:field="${migrationActivity.inputType}" />
+				</div>
+			</div>
+			<div class="col-lg-8 form-group" id="ruleTypeOption" hidden="">
+				<label class="control-label col-sm-2" for="name">Rule Type</label>
+				<div class="col-sm-8">
+					<select class="selectpicker show-tick" title="Select Type" id="selectType">
+						<option th:each="table : ${allRuleTables}" th:value="${table.key}" th:text="${table.value.tableName}" th:attr="data-subtext=${table.key}" th:if="${!#strings.isEmpty(table.value.tableName)}">Tables</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-lg-8 form-group" id="inputFileOption" hidden="">
+				<label class="control-label col-sm-2" for="name">Upload File</label>
+				<div class="col-sm-8">
+					<div class="btn btn-primary next-step" data-toggle="modal" data-target="#fileUploadModal">
+						<i class="fa fa-upload"></i>&nbsp;&nbsp;Select File&nbsp;&nbsp;
+					</div>
+					<a class="btn btn-info" th:href="@{/custom/static/OMT_TEMPLATE.xlsx}" target="_blank">
+						Download Movesheet Template
+					</a>
+				</div>
+			</div>
+
+			<div id="filterSection"></div>
+
+			<div style="margin-right: 5%;" class="form-group">
+				<ul class="list-inline pull-right">
+					<li><button type="submit" class="btn btn-primary next-step">
+							&nbsp;Next&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-circle-right"></i>
+						</button></li>
+				</ul>
+			</div>
+		</form>
+	</div>
+	<div class="modal fade" id="fileUploadModal" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</button>
+					<h4 class="modal-title custom_align" id="versionHistoryTitle">Upload File</h4>
+				</div>
+				<div class="modal-body">
+					<form id="uploadForm" method="post" th:action="@{/uploadInputFile}" enctype="multipart/form-data">
+						<!-- 						<input type="file" name="inputFile"/> -->
+						<!-- 						<input type = "submit" value="Upload"/> -->
+
+						<div class="input-group file-preview bottom-three">
+							<input placeholder="" type="text" id="inputFileDetail" class="form-control file-preview-filename" disabled="disabled"/>
+							<!-- don't give a name === doesn't send on POST/GET -->
+							<span class="input-group-btn"> <!-- file-preview-clear button -->
+								<button type="button" class="btn btn-default file-preview-clear" style="display: none;">
+									<span class="glyphicon glyphicon-remove"></span> Clear
+								</button> <!-- file-preview-input -->
+								<div class="btn btn-default file-preview-input">
+									<span class="glyphicon glyphicon-folder-open"></span> <span class="file-preview-input-title">Browse</span> <input type="file" name="inputFile" id="inputFile" onchange="onFileSelectionChange()"/>
+									<!-- rename it -->
+								</div>
+								<button type="submit" class="btn btn-labeled btn-primary">
+									<span class="btn-label"><i class="glyphicon glyphicon-upload"></i> </span>Upload</button>
+							</span>
+						</div>
+						<!-- /input-group image-preview [TO HERE]-->
+
+						<!-- Progress Bar -->
+
+						<div class="progress bottom-three">
+							<div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+								<span style="color : white; font-weight: bold;" id="progressBarText">0% Complete</span>
+							</div>
+						</div>
+
+						<div class="input-group file-preview" style="color:red; font-weight: bold" id="status"></div>
+					</form>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</div>

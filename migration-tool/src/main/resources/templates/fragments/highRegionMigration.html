@@ -1,0 +1,60 @@
+<div class="wrapper wrapper-content" id="page-content" th:fragment="content">
+
+	<form id="sourceRegionform" class="form-horizontal" role="form" th:object="${migrationActivity}" th:action="@{/migrateUR}" method="post">
+		<div class="panel with-nav-tabs panel-primary">
+			<div class="panel-heading">
+				<ul class="nav nav-tabs">
+					<li th:each="region,stat : ${upperRegions}" th:classappend="${stat.index}==0?'active':''"><a data-toggle="tab" th:href="@{'#'+${region.name}}" th:text="${region.name}"></a></li>
+				</ul>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div th:each="region,stat : ${upperRegions}" class="tab-pane fade" th:classappend="${stat.index}==0?'in active':''" th:id="${region.name}"></div>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" id="targetDB" th:field="${migrationActivity.destinationRegion.regionName}" />
+		<input type="hidden" id="selectedRules" th:field="*{selectedRuleGuidList}" />
+	</form>
+	<div th:replace="fragments/partials :: ruleComparisonModal"></div>
+	<script>
+	$(document).ready(function() {
+		selectedItems=[];
+		var targetID = '#' + $('.nav-tabs .active').text();
+		var url = "regionHistory/" + $('.nav-tabs .active').text();
+		var dataTableID = '#'+$('.nav-tabs .active').text()+"DataTable";
+		$(targetID).load(url, function() {
+			$(dataTableID).dataTable();
+		});
+		$("#targetDB").val( $('.nav-tabs .active').text());
+
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+			selectedItems=[];
+			var targetID = '#' + $('.nav-tabs .active').text();
+			var url = "regionHistory/" + $('.nav-tabs .active').text();
+			var dataTableID = '#'+$('.nav-tabs .active').text()+"DataTable";
+			$(targetID).load(url, function() {
+				$(dataTableID).dataTable();
+			});
+			$("#targetDB").val( $('.nav-tabs .active').text());
+		});
+
+		function updateRuleSelection(ruleGuid, checkboxId) {
+			if ($('#' + checkboxId).is(':checked')) {
+				selectedItems.push(ruleGuid);
+				console.log("Rule Selected : " + ruleGuid)
+			} else {
+				var index = selectedItems.indexOf(ruleGuid);
+				if (index > -1) {
+					selectedItems.splice(index, 1);
+					console.log("Rule de-selected : " + ruleGuid);
+				}
+			}
+
+			console.log("Selected Items : " + selectedItems);
+			$('#selectedRules').val(selectedItems);
+		}
+	});
+	</script>
+
+</div>
