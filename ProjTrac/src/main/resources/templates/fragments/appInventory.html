@@ -1,0 +1,40 @@
+<div class="content-wrapper" id="page-content" th:fragment="content">
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="breadcrumb side">
+				<li><a href="/ptrac/"><i class="fa fa-home fa-lg"></i></a></li>
+				<li class="active"><a href="#">Application Inventory</a></li>
+			</ul>
+		</div>	
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					
+					<div class="row" style="padding-bottom:10px;">
+						<div class="col-md-10">
+							<h4>Application Inventory</h4>
+						</div>	
+						<div class="col-md-2" style="padding-right:6px;padding-left:6px;">
+							<a class="btn btn-primary icon-btn mr-10" href="/ptrac/addApplication">
+								<i class="fa fa-plus-circle"></i>New Application
+							</a>
+						</div>						
+					</div>
+					
+					<table id="inventory" class="table table-hover table-responsive table-bordered" width="100%">					
+					</table>
+					
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var id = window.location.search.substring(1);
+				getAppInventoryData(id);
+			} );
+			
+		</script>
+	</div>
+</div>

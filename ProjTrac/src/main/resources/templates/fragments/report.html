@@ -1,0 +1,181 @@
+<div class="content-wrapper" id="page-content" th:fragment="content">
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-body">
+		<table class="table table-striped" style="background-repeat: no-repeat;  margin: 0;" >
+			  <tr> 
+				     <td>Select Reports</td> 
+				
+					 <td> <select id="reportType" style="height:30px ;"  onchange ="getdropdownvalue()">
+				 	     <option value = ""  >--Select--</option>
+						 <option value = "report1"  >Product By Definition</option>
+						 <option value = "report2" >Product By Status</option>
+						 <option value = "report3" >Application By Status</option>
+						 <option value = "report4" >Application With Waivers</option>
+						
+					     </select> 
+					</td>   
+					
+			  </tr>
+			  <tr id="selectByDef" style="display: none;"> 
+				   
+				    	 <td>Select Status</td> 				
+						 <td> 
+						 	 <select id="byStatus" style="height:30px ;">
+							 	 <option value = "report1"  >N</option>
+								 <option value = "report2" >N-1</option>
+								 <option value = "report3" >Not Defined</option>
+								 <option value = "report4" >All</option>
+						     </select> 
+						</td>  
+				   
+			  </tr>
+		       <tr id="selectByStatus" style="display: none;"> 
+				   
+				    	 <td>Select Definition</td> 				
+						 <td> 
+						 	 <select id="byStatus" style="height:30px ;">
+							 	 <option value = "report1" >Approved</option>
+								 <option value = "report2" >Recommended</option>
+								 <option value = "report3" >Not Defined</option>
+								 <option value = "report4" >All</option>
+						     </select> 
+						</td>  
+				   
+			  </tr>			
+		</table>		
+				<br/>
+				<a id="btnGenerate" class="btn btn-primary icon-btn mr-10" href="#" onclick="displayPie()" ><i class="fa fa-plus-circle"></i>&nbsp;Generate&nbsp;</a>
+				
+			   </div>
+			   <br/><br/>
+			 <table class="table table-hover table-bordered" id="appSoftwareTable" >
+						
+					</table>
+		</div>
+		
+	</div>
+	<div class="col-md-6" id="pieDiv">
+			<div class="card">
+				<h3 class="card-title">Product Approval Report</h3>
+				<div class="embed-responsive embed-responsive-16by9">
+					<canvas class="embed-responsive-item" id="pieChartDemo"></canvas>
+				</div>
+			</div>
+		</div>
+</div>
+	  <script th:src="@{/custom/js/page/report.js}"></script>
+<script>
+$(document).ready(function() {			
+	//loadApplication();
+	$("#pieDiv").hide();
+} );
+
+
+      function getdropdownvalue()
+      {
+    	  $('#selectByStatus').hide();
+    	  $('#selectByDef').hide();
+    	 // var e = document.getElementById("reportType").value;
+    	  var reportType = $("#reportType").val();
+    	 // alert($("#reportType").val());
+    	  if(reportType=='report2' || reportType=='report3') {
+    		  //alert(reportType);
+    		  $('#selectByStatus').show();
+    	  }
+    	  else if(reportType=='report1'){
+    		  $('#selectByDef').show();
+    	  }
+    		  
+    		 /* 
+    		  if(e == 'report1')
+    			  {
+    			  alert("first");
+    			  var ee = document.getElementById("seconddropdownvalue");
+    			  var opt = document.createElement('option');
+    			    opt.innerHTML = "N";
+    			    opt.value = "N";
+    	    	
+    			  ee.appendChild(opt);
+    			  var opt1 = document.createElement('option');
+    			  opt1.innerHTML = "N-1";
+  			      opt1.value = "N-1";
+  	    	
+    			  ee.appendChild(opt1);
+    			  var opt2 = document.createElement('option');
+    			  opt2.innerHTML = "Not Defined";
+  			      opt2.value = "Not Defined";
+  	    	
+    			  ee.appendChild(opt2);
+    			  var opt3 = document.createElement('option');
+    			  opt3.innerHTML = "All";
+  			      opt3.value = "All";
+  	    	
+    			  ee.appendChild(opt3);
+    			  
+    			  
+    			  }
+    		  else if(e == 'report2')
+			  {
+			  alert("second");
+			
+			  var ee = document.getElementById("seconddropdownvalue");
+			  var opt = document.createElement('option');
+			    opt.innerHTML = "Approved";
+			    opt.value = "Approved";
+	    	
+			  ee.appendChild(opt);
+			  var opt1 = document.createElement('option');
+			  opt1.innerHTML = "Recommended";
+			      opt1.value = "Recommended";
+	    	
+			  ee.appendChild(opt1);
+			  var opt2 = document.createElement('option');
+			  opt2.innerHTML = "Not Defined";
+			      opt2.value = "Not Defined";
+	    	
+			  ee.appendChild(opt2);
+			  var opt3 = document.createElement('option');
+			  opt3.innerHTML = "All";
+			      opt3.value = "All";
+	    	
+			  ee.appendChild(opt3);
+			  
+			  }
+    		  if(e == 'report3')
+			  {
+			  alert("third");
+			  var ee = document.getElementById("seconddropdownvalue");
+			  var opt = document.createElement('option');
+			    opt.innerHTML = "Approved";
+			    opt.value = "Approved";
+	    	
+			  ee.appendChild(opt);
+			  var opt1 = document.createElement('option');
+			  opt1.innerHTML = "Recommended";
+			      opt1.value = "Recommended";
+	    	
+			  ee.appendChild(opt1);
+			  var opt2 = document.createElement('option');
+			  opt2.innerHTML = "Not Defined";
+			      opt2.value = "Not Defined";
+	    	
+			  ee.appendChild(opt2);
+			  var opt3 = document.createElement('option');
+			  opt3.innerHTML = "All";
+			      opt3.value = "All";
+	    	
+			  ee.appendChild(opt3);
+			  }
+    		  if(e == 'report4')
+			  {
+			  alert("fourth");
+			  } */
+    		  
+    	  
+    	  
+      }
+</script>	
+</div>

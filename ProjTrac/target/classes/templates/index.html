@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="layout :: head-section"></head>
+
+<body class="sidebar-mini fixed  pace-done sidebar-collapse">
+    <div class="wrapper">
+    	<header th:replace="layout :: header"></header>
+    	<aside th:replace="layout :: sidebar"></aside>
+    	<div th:replace=" ${fragmentName} :: content"></div>
+    	<div th:replace="layout :: loading"></div>
+    </div>
+</body>
+<!-- <body>
+	<div th:replace="layout :: sidebar"></div>
+	<div id="page-wrapper" class="gray-bg">
+		<div th:replace="layout :: header"></div>
+		<div class="row border-bottom"></div>
+		<div th:replace=" ${fragmentName} :: content"></div>
+	</div>
+	<div th:replace="layout :: loading"></div>
+</body> -->
+</html>

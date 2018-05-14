@@ -1,0 +1,248 @@
+<div class="content-wrapper" id="page-content" th:fragment="content">
+
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="breadcrumb side">
+				<li><a href="/ptrac/"><i class="fa fa-home fa-lg"></i></a></li>
+				<li><a href="/ptrac/appInventory">Application Inventory</a></li>
+				<li id="newAppCrumb" class="active"><a href="#">Add New Application</a></li>
+				<li id="updateAppCrumb" class="active"><a href="#">Update Application Detials</a></li>
+			</ul>
+		</div>	
+	</div>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+					<h4>Application Details</h4>
+					
+					<div class="row">
+					   <fieldset class="for-panel">
+					      <div class="row">
+					         <div class="col-sm-6">
+					            <div class="form-horizontal">
+					               <div class="form-group">
+					                  <label for="appName" class="col-md-4 control-label">Application Name</label>
+					                  <div class="col-md-7">
+					                     <input type="text" class="form-control" id="appName" placeholder=""/>
+					                  </div>
+					               </div>
+					               <div class="form-group">
+					                  <label for="curr_scope" class="col-md-4 control-label">Currency Scope</label>
+					                  <div class="col-md-7">
+					                     <select class="form-control" id="curr_scope" >
+					                        <option value="No">No</option>
+					                        <option value="Yes">Yes</option>
+					                     </select>
+					                  </div>
+					               </div>
+					               <div class="form-group">
+					                  <label for="technology" class="col-md-4 control-label">Technology</label>
+					                  <div class="col-md-7">
+					                     <select id="technology"  class="form-control">
+					                        <option value="Java">Java</option>
+					                        <option value=".Net">.Net</option>
+					                        <option value="Database">Database</option>
+					                        <option value="COTS">COTS</option>
+					                        <option value="Others">Others</option>
+					                     </select>
+					                  </div>
+					               </div>
+					               <div class="form-group">
+					                  <label for="os" class="col-md-4 control-label">Operating System</label>
+					                  <div class="col-md-7">
+					                     <select class="form-control" multiple="multiple" id="os"></select>
+					                  </div>
+					               </div>
+					               <div class="form-group">
+					                  <label for="db" class="col-md-4 control-label">Database</label>
+					                  <div class="col-md-7">
+					                     <select multiple="multiple" id="db"  class="form-control"></select>
+					                  </div>
+					               </div>
+					               <div class="form-group">
+					                  <label for="middleware" class="col-md-4 control-label">Middleware</label>
+					                  <div class="col-md-7">
+					                     <select multiple="multiple" class="form-control" id="middleware"></select>
+					                  </div>
+					               </div>
+					            </div>
+					         </div>
+					         <div class="col-sm-6">
+					            <div class="form-horizontal">
+					               <div class="form-group">
+					                  <label for="lob" class="col-md-4 control-label">LOB</label>
+					                  <div class="col-md-7">
+					                     <select id="lob"  class="form-control">
+					                        <option value="Annuities and Insurance">Annuities and Insurance</option>
+					                        <option value="Retirement Services">Retirement Services</option>
+					                        <option value="Analytics and Data Management">Analytics and Data Management</option>
+					                        <option value="EAS">EAS</option>
+					                        <option value="Enterprise Contact Center and CRM">Enterprise Contact Center and CRM</option>
+					                        <option value="IT Strategy and Delivery Office">IT Strategy and Delivery Office</option>
+					                        <option value="Producer Services IT">Producer Services IT</option>
+					                        <option value="Security">Security</option>
+					                        <option value="Technology Services">Technology Services</option>
+					                     </select>
+					                  </div>
+					               </div>
+					               <div class="form-group">
+					                  <label for="targetDC" class="col-md-4 control-label">Target DC</label>
+					                  <div class="col-md-7">
+					                     <select id="targetDC" class="form-control" >
+					                        <option value="Voya">Voya DC</option>
+					                        <option value="Cognizant">Cognizant DC</option>
+					                     </select>
+					                  </div>
+					               </div>
+					               <div class="form-group">
+					                  <label for="pl" class="col-md-4 control-label">Programming Language</label>
+					                  <div class="col-md-7">
+					                     <select multiple="multiple" class="form-control" id="pl"></select>
+					                  </div>
+					               </div>
+					               <div class="form-group">
+					                  <label for="as" class="col-md-4 control-label">Application Server</label>
+					                  <div class="col-md-7">
+					                     <select multiple="multiple" class="form-control" id="as"></select>
+					                  </div>
+					               </div>
+					               <div class="form-group">
+					                  <label for="devops" class="col-md-4 control-label">DevOps</label>
+					                  <div class="col-md-7">
+					                     <select multiple="multiple" class="form-control" id="devops"></select>
+					                  </div>
+					               </div>
+					               <div class="form-group">
+					                  <label for="framework" class="col-md-4 control-label">Framework</label>
+					                  <div class="col-md-7">
+					                     <select multiple="multiple" class="form-control" id="framework"></select>
+					                  </div>
+					               </div>
+					            </div>
+					         </div>
+					      </div>
+					   </fieldset>
+					</div>
+									    
+				    <div class="row">				    								
+						<button id ="savebtn" class="btn btn-primary" onclick="insertData()"><i class="fa fa-floppy-o">&nbsp;</i>&nbsp;Save&nbsp;</button>
+						<button id ="updatebtn" class="btn btn-primary" onclick="insertData()"><i class="fa fa-floppy-o">&nbsp;</i>&nbsp;Update&nbsp;</button>					
+						<button id="resetbtn" class="btn btn-primary" onclick="clearData()"><i class="fa fa-refresh">&nbsp;</i>&nbsp;Reset&nbsp;</button>
+						<a id="cancelbtn" class="btn btn-primary icon-btn mr-10" href="/ptrac/appInventory"><i class="fa fa-step-backward"></i>&nbsp;Cancel&nbsp;</a>							
+				    </div>
+			</div>
+		</div>				    
+				    
+<!-- 
+					<table class="table table-strqiped  table-responsive " style="background-repeat: no-repeat;  margin: 0;" id="applicationData"> 
+						<tr>
+							<td>Application Name</td>
+							<td><input type="text" id="appName" style="width: 400px;"/></td>
+							
+							<td>LOB</td>
+							<td><select id="lob" style="width: 400px;">
+									<option value="Annuities and Insurance">Annuities and Insurance</option>
+									<option value="Retirement Services">Retirement Services</option>
+									<option value="Analytics and Data Management">Analytics and Data Management</option>
+									<option value="EAS">EAS</option>
+									<option value="Enterprise Contact Center and CRM">Enterprise Contact Center and CRM</option>
+									<option value="IT Strategy and Delivery Office">IT Strategy and Delivery Office</option>
+									<option value="Producer Services IT">Producer Services IT</option>
+									<option value="Security">Security</option>
+									<option value="Technology Services">Technology Services</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td>Currency Scope</td>
+							<td><select id="curr_scope" style="width: 400px;">
+									<option value="No">No</option>
+									<option value="Yes">Yes</option>
+							</select></td>
+							
+							<td>Technology</td>
+							<td><select id="technology" style="width: 400px;">
+									<option value="Java">Java</option>
+									<option value=".Net">.Net</option>
+									<option value="Database">Database</option>
+									<option value="COTS">COTS</option>
+									<option value="Others">Others</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td>Target DC</td>
+							<td><select id="targetDC" style="width: 400px;">
+									<option value="Voya">Voya DC</option>
+									<option value="Cognizant">Cognizant DC</option>
+							</select></td>
+							<td>&nbsp;</td>
+							<td style="width: 400px;">&nbsp;</td>					
+						</tr>						
+						<tr>
+							<td>Operating System</td>
+							<td><select multiple="multiple" id="os" style="width: 400px;">
+							</select></td>
+							<td>Programming Language</td>
+							<td><select multiple="multiple" style="width: 400px;"
+								id="pl">
+							</select></td>
+						</tr>
+		
+						<tr>
+							<td>Database</td>
+							<td><select multiple="multiple" style="width: 400px;"
+								id="db">
+							</select></td>
+							<td>Application Server</td>
+							<td><select multiple="multiple" style="width: 400px;"
+								id="as">
+							</select></td>
+						</tr>
+	
+						<tr>
+							<td>Middleware</td>
+							<td><select multiple="multiple" style="width: 400px;"
+								id="middleware">
+							</select></td>
+							<td>DevOps</td>
+							<td><select multiple="multiple" style="width: 400px;"
+								id="devops">
+							</select></td>
+						</tr>
+
+						<tr>
+							<td>Framework</td>
+							<td><select multiple="multiple" style="width: 400px;"
+								id="framework">
+							</select></td>
+							<td><span></span></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td align="right">
+								<button id ="savebtn" class="btn btn-primary float-right" onclick="insertData()">Save</button>
+								<button id ="updatebtn" class="btn btn-primary" onclick="insertData()">Update</button>
+							</td>
+							<td>
+								<button id="resetbtn" class="btn btn-primary" onclick="clearData()">Reset</button>
+							</td>
+						</tr>
+					</table>-->
+
+
+		<script type="text/javascript">
+			$(document).ready(function() {	
+				var id = window.location.search.substring(1);
+				if(id.length>0){
+					$("#savebtn").hide();
+					$("#newAppCrumb").hide();
+				}else{
+					$("#updatebtn").hide();
+					$("#updateAppCrumb").hide();
+				}
+				loadSoftware(id);
+			//	$(".select2").parent().find("os") = id;
+			} );
+		</script>
+	</div>
+</div>

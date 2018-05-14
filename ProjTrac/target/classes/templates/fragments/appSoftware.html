@@ -1,0 +1,469 @@
+<div class="content-wrapper" id="page-content" th:fragment="content">
+
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="breadcrumb side">
+				<li><a href="/ptrac/"><i class="fa fa-home fa-lg"></i></a></li>
+				<li class="active"><a href="#">Product Inventory</a></li>
+			</ul>
+		</div>	
+	</div>
+	
+	<form action="" method="">
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					<div class="row" style="padding-bottom:10px;">
+						<div class="col-md-10">
+							<h4>Product Inventory</h4>
+						</div>	
+						<div class="col-md-2" style="padding-right:6px;">
+							<input type="hidden" id="prdMstrId" />
+							
+							<div class="btn-group" data-toggle-name="sort_options" data-toggle="buttons-radio">
+								<button type="button" class="btn pull-right btn btn-primary icon-btn mr-10" value="upload" data-toggle="button" onclick="showOption('upload');">Upload</button>
+						        <button type="button" class="btn active pull-right btn btn-primary icon-btn mr-10" value="add" data-toggle="button" onclick="showOption('add');">Add</button>						        
+						    </div>
+						</div>
+						
+						<div class="col-lg-8 form-group" id="inputFileOption" hidden="">
+							<hr style="color: navy;"/>
+							<label class="control-label col-sm-2" for="name">Upload File</label>
+							<div class="col-sm-8">
+								<div class="btn btn-primary" data-toggle="modal" data-target="#fileUploadModal">
+									<i class="fa fa-upload"></i>&nbsp;&nbsp;Select File&nbsp;&nbsp;
+								</div>
+								<a class="btn btn-info" th:href="@{/custom/static/VOYA_PRD_STANSARD_TEMPLATE.xlsx}" target="_blank">
+									Download Template
+								</a>
+							</div>
+							
+						</div>					
+					</div>
+					<div id="timelineView">
+						<h4 id="header" hidden="">Timeline</h4>
+						<h5 id="header6" hidden="">Product Inventory :</h5>
+						<div id="previousData"></div>
+						<h5 id="header1" hidden="">Oracle Java Development Kit (JDK) :</h5>
+						<div id="jdkData"></div>
+						<h5 id="header2" hidden="">Red Hat JBoss Application Server</h5>
+						<div id="jbossData"></div>
+						<h5 id="header3" hidden="">Red Hat Enterprise Linux :</h5>
+						<div id="rhelData"></div>
+						<h5 id="header4" hidden="">Microsoft .NET Framework :</h5>
+						<div id="dotnetData"></div>
+						<h5 id="header5" hidden="">Microsoft Windows Server 2016:</h5>
+						<div id="windowsData"></div>						
+					</div>
+					
+					<table class="table table-hover table-responsive table-bordered" id="appSoftwareTable">
+					</table>
+					
+					<hr style="color: navy;"/>
+					<div id="n-1view" class="col-md-11" style="padding-left:0px;">
+						<h4>Product N/N-1 View</h4>
+					</div>	
+					<div class="col-md-1" style="padding-right:0px;padding-left:12px;">
+						<a id="addDtlsBtn" class="btn btn-primary icon-btn mr-10" href="#" onclick="addDetails();" ><i class="fa fa-plus-circle"></i>&nbsp;Add&nbsp;</a>
+					</div>	
+					<table class="table table-hover table-responsive table-bordered" id="dependentData">
+						
+					</table>
+					<p align="right"><button type="button" class="btn btn-primary" id="btnVoyaNSave" onclick="updateVoyaN()" ><i class="fa fa-floppy-o">&nbsp;</i>&nbsp;Save&nbsp;</button></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	</form>
+	
+<div id="detailView" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog modal-lg">
+<input type="hidden" id="prdDtlId" />
+			<!-- Modal content-->
+			<div class="modal-content">
+			<form action="" method="">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Software Details</h4>
+				</div>
+				<div class="modal-body application-modal-body">
+					
+						<div class="tab-pane" id="location">
+							<div class="row">
+								<div class="col-sm-5 col-sm-offset-1">
+									<div class="form-group">
+									<label>Industry Product Name</label> <input type="text" class="form-control" id="indPrdName" />
+									</div>
+								</div>
+								<div class="col-sm-5">
+									<div class="form-group">
+										<label>Version</label> <input type="text" class="form-control" id="version" />
+									</div>
+								</div>
+								<div class="col-sm-5 col-sm-offset-1">
+									<div class="form-group">
+										<label>Product Lifecycle Disposition</label> <!-- <input type="text" class="form-control" id="disposition" /> -->
+										<select class="form-control" id="disposition">
+										<option value="Install Standard">Install Standard</option>
+										<option value="Emerge">Emerge</option>
+										<option value="Contain">Contain</option>
+										<option value="Industry N / Not in Environment">Industry N / Not in Environment</option>
+										<option value="Retire">Retire</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-5">
+									<div class="form-group">
+										<label>Emerge Date</label> <input type="text" class="form-control" id="emerge" />
+									</div>
+								</div>
+								<div class="col-sm-5 col-sm-offset-1">
+									<div class="form-group">
+										<label>Select Date</label> <input type="text" class="form-control" id="select" />
+									</div>
+								</div>
+								<div class="col-sm-5">
+									<div class="form-group">
+										<label>Install Standard Date</label> <input type="text" class="form-control" id="install" />
+									</div>
+								</div>
+								<div class="col-sm-5 col-sm-offset-1">
+									<div class="form-group">
+										<label>Contain Date</label> <input type="text" class="form-control" id="contain" />
+									</div>
+								</div>
+								<div class="col-sm-5">
+									<div class="form-group">
+										<label>De-Support Date</label> <input type="text" class="form-control" id="deSupport" />
+									</div>
+								</div>
+								<div class="col-sm-5 col-sm-offset-1">
+									<div class="form-group">
+										<label>Retire Date</label> <input type="text" class="form-control" id="retire" />
+									</div>
+								</div>
+								<div class="col-sm-5">
+									<div class="form-group">
+										<label>Vendor N</label> <select class="form-control" id="vendorN"><option value="TRUE">TRUE</option><option value="FALSE">FALSE</option></select>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-5 col-sm-offset-1">
+									<div class="form-group">
+										<label>Vendor Support Alert</label> <input type="text" class="form-control" id="alert" />
+									</div>
+								</div>
+								<div class="col-sm-5">
+									<div class="form-group">
+										<label>GA Date</label> <input type="text" class="form-control" id="gaDate" />
+									</div>
+								</div>
+								<div class="col-sm-5 col-sm-offset-1">
+									<div class="form-group">
+										<label>EOL Date</label> <input type="text" class="form-control" id="eolDate" />
+									</div>
+								</div>
+								<div class="col-sm-5">
+									<div class="form-group">
+										<label>EOL Support Level</label> <input type="text" class="form-control" id="supportLevel" />
+									</div>
+								</div>
+								<div class="col-sm-5 col-sm-offset-1">
+									<div class="form-group">
+										<label>Obsolete Date</label> <input type="text" class="form-control" id="obsolete" />
+									</div>
+								</div>
+								<div class="col-sm-5">
+									<div class="form-group">
+										<label>Obsolete Support Level</label> <input type="text" class="form-control" id="obsoleteSupport" />
+									</div>
+								</div>
+								<div class="col-sm-5 col-sm-offset-1" id="commentDiv">
+									 <div class="form-group">
+										<label>Edit Comments</label> <textarea id="comments" class="form-control" rows="" cols=""></textarea> 
+									</div>
+								</div>
+								<div class="col-sm-5" id="historyDiv">
+									<div class="form-group">
+										<label>History</label>  <textarea id="history" class="form-control" readonly="readonly" rows="" cols=""></textarea>
+									</div>
+								</div>	 
+								<!-- <div class="col-sm-5 col-sm-offset-1">
+									<div class="form-group">
+										<label>Voye N</label> <input type="radio" class="form-control" id="voyaN" />
+									</div>
+								</div>
+								<div class="col-sm-5">
+									<div class="form-group">
+										<label>Voya N-1</label> <input type="checkbox" class="form-control" id="voyaN-1" />
+									</div>
+								</div> -->
+							</div>
+						</div>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" id="btnDtlsSave" onclick="saveData()">Add</button>
+					<button type="button" class="btn btn-success" id="btnDtlsEdit" onclick="updateDtlsData()">Update</button>
+					<button type="button" class="btn btn-default" id="btnDtlsCancel" data-dismiss="modal" >Cancel</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function() {			
+			getAppSoftwareData();
+			/* $('#emerge').datepicker({autoclose: true, format: 'yyyy-mm-dd'});
+			$('#select').datepicker({autoclose: true, format: 'yyyy-mm-dd'});
+			$('#install').datepicker({autoclose: true, format: 'yyyy-mm-dd'});
+			$('#contain').datepicker({autoclose: true, format: 'yyyy-mm-dd'});
+			$('#deSupport').datepicker({autoclose: true, format: 'yyyy-mm-dd'});
+			$('#retire').datepicker({autoclose: true, format: 'yyyy-mm-dd'});
+			$('#gaDate').datepicker({autoclose: true, format: 'yyyy-mm-dd'});
+			$('#eolDate').datepicker({autoclose: true, format: 'yyyy-mm-dd'});
+			$('#obsolete').datepicker({autoclose: true, format: 'yyyy-mm-dd'}); */
+			$('#emerge').datepicker({autoclose: true, format: 'mm/dd/yyyy'});
+			$('#select').datepicker({autoclose: true, format: 'mm/dd/yyyy'});
+			$('#install').datepicker({autoclose: true, format: 'mm/dd/yyyy'});
+			$('#contain').datepicker({autoclose: true, format: 'mm/dd/yyyy'});
+			$('#deSupport').datepicker({autoclose: true, format: 'mm/dd/yyyy'});
+			$('#retire').datepicker({autoclose: true, format: 'mm/dd/yyyy'});
+			$('#gaDate').datepicker({autoclose: true, format: 'mm/dd/yyyy'});
+			$('#eolDate').datepicker({autoclose: true, format: 'mm/dd/yyyy'});
+			$('#obsolete').datepicker({autoclose: true, format: 'mm/dd/yyyy'});
+			$("#addDtlsBtn").hide(); 
+			$("#btnDtlsEdit").hide(); 
+			$("#btnVoyaNSave").hide();
+
+		} );
+ 		document.getElementById('btnDtlsCancel').addEventListener("click", function(event) {
+		    (function(event) {
+		    	 $('#history').val(' ');
+		    	 $('#comments').val(' ');
+		    }).call(document.getElementById('btnDtlsCancel'), event);
+		}); 
+	</script>
+	<script th:src="@{/custom/js/page/software.js}"></script>
+	<!-- <script type="text/javascript">
+		function fun(this){
+			/* console.log('value is : '+ $(this).val());
+			console.log('my value is: '+$(this).val());
+			console.log($("#masterView #roadmap").val()); */
+			
+			$('#roadmap').on('change', function(){
+			    if( $(this).val() == 'Application Development' ){
+			        $('.dmng').hide();
+			        $('.appDev').show();
+			    } else if( $(this).val() == 'Data Management' ){
+			        $('.appDev').hide();
+			        $('.dmng').show();
+			    }
+			});
+		}
+	</script> -->
+	
+	<div id="masterView" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog modal-lg">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Software Details</h4>
+				</div>
+				<div class="modal-body application-modal-body">
+					<form action="" method="">
+						<div class="tab-pane" id="location">
+							<div class="row">
+								<div class="col-sm-5 col-sm-offset-1">
+									<div class="form-group">
+										<!-- <label>RoadMap</label> <input type="text" class="form-control" id="roadmap" /> -->
+										<label>RoadMap</label> 
+										<select class="form-control" id="roadmap">
+											<option value="Application Development">Application Development</option><option value="Data Management">Data Management</option><option value="Infrastructure">Infrastructure</option><option value="Security Tools">Security Tools</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-5">
+									<div class="form-group">
+										<label>Management Group</label> 
+										<!-- <input type="text" class="form-control" id="mgmtGrp" /> -->
+										
+											<select class="form-control" id="mgmtGrp" >
+											
+												<option value=".NET Development">.NET Development</option>
+												<option value="Business Tools">Business Tools</option>
+												<option value="Reporting">Reporting</option>
+												<option value="In-Scope Rationalized Security Tools">In-Scope Rationalized Security Tools</option>
+												<option value="Desktop">Desktop</option>
+												<option value="Java Development">Java Development</option>
+												<option value="Mobile">Mobile</option>
+												<option value="Collaboration">Collaboration</option>
+												<option value="Predictive Modelling">Predictive Modelling</option>
+												<option value="Web">Web</option>
+												<option value="Monitoring">Monitoring</option>
+												<option value="DEEP">DEEP</option>
+												<option value="Network Voice">Network Voice</option>
+												<option value="Old Versions Upgraded Security Tools">Old Versions Upgraded Security Tools</option>
+												<option value="New Tools Added Since Rationalization Project">New Tools Added Since Rationalization Project</option>
+												<option value="Cloud-based App Dev">Cloud-based App Dev</option>
+												<option value="Network Data">Network Data</option>
+												<option value="Storage">Storage</option>
+												<option value="Retired In-Scope Rationalized Supp. Security Tools">Retired In-Scope Rationalized Supp. Security Tools</option>
+												<option value="Modeling">Modeling</option>
+												<option value="Testing">Testing</option>
+												<option value="Dev Ops">Dev Ops</option>
+												<option value="Query">Query</option>
+												<option value="Database">Database</option>
+												<option value="Cloud Tooling">Cloud Tooling</option>
+												<option value="Virtualization">Virtualization</option>
+												<option value="Dev Methods and Tools">Dev Methods and Tools</option>
+												<option value="Data Management (Master, reference, meta)">Data Management (Master, reference, meta)</option>
+												<option value="Voice Applications">Voice Applications</option>
+												<option value="Directory Services">Directory Services</option>
+												<option value="Middleware">Middleware</option>
+												<option value="Retired In-Scope Rationalized Security Tools">Retired In-Scope Rationalized Security Tools</option>
+												<option value="In-Scope Rationalized Supporting Security Tools">In-Scope Rationalized Supporting Security Tools</option>
+												<option value="COBOL">COBOL</option>
+												<option value="Project Management">Project Management</option>
+												<option value="Requirements Management">Requirements Management</option>
+												<option value="Data Archival">Data Archival</option>
+												<option value="Data Quality">Data Quality</option>
+												<option value="Data Visualization">Data Visualization</option>
+												<option value="ETL">ETL</option>
+												<option value="Statistical Analysis">Statistical Analysis</option>
+												<option value="Server">Server</option>
+												<option value="Database Replication">Database Replication</option>
+												<option value="Automation">Automation</option>
+												<option value="Scheduling">Scheduling</option>
+												<option value="Data In Memory">Data In Memory</option>
+												<option value="Approved TLS Versions">Approved TLS Versions</option>
+												<option value="Retired Not Part of Rationalized Tools Project">Retired Not Part of Rationalized Tools Project</option>
+											</select>
+										
+										
+									</div>
+								</div>
+								<div class="col-sm-5 col-sm-offset-1">
+									<div class="form-group">
+										<label>Manufacturer</label> <input type="text" class="form-control" id="manufacturer" />
+									</div>
+								</div>
+								<div class="col-sm-5">
+									<div class="form-group">
+										<label>Product name</label> <input type="text" class="form-control" id="prdName" />
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" id="btn-save" onclick="saveDataToMaster()">Add</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+	
+	<div id="popupView" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+              <div class="modal-dialog modal-lg">
+
+                     <!-- Modal content-->
+                     <div class="modal-content" style="width:500px; margin: 0px auto;">
+                           <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  <h4 class="modal-title">Approve</h4>
+                           </div>
+                           <div class="modal-body application-modal-body">
+                                  <input type="hidden" id="prdMstrId" />
+                                  <input type="hidden" id="roadmap" />
+                                  <input type="hidden" id="manf" />
+                                  <input type="hidden" id="mnfgrp" />
+                                  <input type="hidden" id="prodDispName" />
+                                  Are you sure you want to approve the recommended versions?
+                           </div>
+                           <div class="modal-footer">
+                                  <button type="button" class="btn btn-success" id="btn-save" onclick="addPopupData()">Yes</button>
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                           </div>
+                     </div>
+
+              </div>
+       </div>
+       
+       <div id="auditView" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+              <div class="modal-dialog modal-lg">
+              	<div class="col-md-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 id="prdHeader">Product History</h4>
+							<br/>
+							<div id="prdTimeline"></div>
+							<div id="loading" class="text-info" style="font-size: 20px;font-weight: bold;text-align: center;">Loading...Please wait.</div>
+							<br/>
+							<p align="right"><button type="button" class="btn btn-primary" data-dismiss="modal">Close</button></p>
+						</div>
+					</div>
+				</div>
+              </div>
+       </div>
+       
+       <div class="modal fade" id="fileUploadModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content" style="width:650px; margin: 0px auto;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<i class="fa fa-times"></i>
+					</button>
+					<h4 class="modal-title" id="versionHistoryTitle">Upload Product Inventory</h4>
+				</div>
+				<div class="modal-body application-modal-body">
+					<form id="uploadForm" method="post" th:action="@{/uploadInputFile}" enctype="multipart/form-data">
+						<div class="tab-pane" id="location">
+							<div class="row">
+								<div class="col-sm-5 col-sm-offset-1">
+									<div class="form-group">
+										<input placeholder="" type="text" id="inputFileDetail" class="form-control file-preview-filename" disabled="disabled"/>
+									</div>
+								</div>
+								<div class="col-sm-5">
+									<div class="form-group">
+										<div class="btn btn-default file-preview-input">
+											<i class="fa fa-folder-open"></i>
+											<span class="file-preview-input-title">&nbsp;Browse&nbsp;</span>
+											<input type="file" name="inputFile" id="inputFile" onchange="onFileSelectionChange()"/>
+											<!-- rename it -->
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="progress bottom-three">
+									<div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+										<span style="color : white; font-weight: bold;" id="progressBarText">0% Complete</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-labeled btn-primary" data-dismiss="modal"><span class="btn-label"><i class="fa fa-upload"></i></span>&nbsp;Upload&nbsp;</button>
+					<!-- <button type="button" class="btn btn-default" ><i class="fa fa-times"></i>&nbsp;Clear&nbsp;</button> -->
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+       
+</div>

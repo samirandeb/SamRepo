@@ -1,0 +1,33 @@
+<div class="content-wrapper" id="page-content" th:fragment="content">
+	<p>
+        Application Dependency View.
+        <!-- <input type="button" id="full-Screen-id" value="FullScreen" onclick="fullScreen();"/> -->
+        <a class="btn btn-primary btn-flat" href="#" onclick="fullScreen();" ><i	class="fa fa-lg fa-plus"></i></a>
+    </p>
+
+    <div id="mynetwork"></div>
+    <pre id="eventSpan"></pre>
+    
+    
+    <script th:inline="javascript">
+		/*<![CDATA[*/
+		
+		var appName = [[${appName}]];
+		//alert(appName);
+		
+		if(appName) {
+			var data = getDependency(appName);
+		} else {
+			fullDependency();
+		}
+		  
+		
+		/*]]>*/
+	</script>
+    <!-- <script type="text/javascript">    
+    
+        var appName =/*[[${appName}]]*/;
+        alert(appName);
+    	var data = getDependency(appName);        
+    </script> -->
+</div>

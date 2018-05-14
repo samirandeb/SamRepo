@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>OMT - Home</title>
+<link rel="icon" th:href="@{/custom/static/logo.png}" />
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.2/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+
+<style type="text/css">
+body {
+	background-color: #465568;
+	padding: 0;
+	margin: 0;
+}
+</style>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js" th:src="@{/webjars/jquery/1.11.1/jquery.js}"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/3.3.2/js/bootstrap.min.js}"></script>
+<script th:src="@{/custom/js/md5.min.js}"></script>
+<script>
+function encryptPassword() {
+	$("#password").val(md5($("#password").val()));
+	return true;   // Returns Value
+}
+</script>
+</head>
+<body>
+
+	<div class="container">
+		<div id="loginbox" style="margin-top: 220px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="panel-title">Sign In</div>
+					<div style="float: right; font-size: 80%; position: relative; top: -10px" th:text="${appName +' ('+ appVersion+')'}"></div>
+				</div>
+				<div style="padding-top: 30px" class="panel-body">
+					<div style="display: none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+					<form id="loginform" class="form-horizontal" role="form" th:action="@{/login}" method="post" onsubmit="return encryptPassword()">
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> <input id="username" name="username" type="text" class="form-control" placeholder="username" required="required" />
+						</div>
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span> <input type="password" class="form-control" id="password" name="password" placeholder="password" required="required" />
+						</div>
+						<!--  <div class="input-group">
+                               <div class="checkbox">
+                                 <label>
+                                   <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
+                                 </label>
+                               </div>
+                             </div> -->
+						<div style="margin-top: 10px" class="form-group">
+							<div class="col-sm-12 controls">
+								<button class="btn btn-success" type="submit">Login</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-12 control">
+								<div style="border-top: 1px solid #888; padding-top: 15px; font-size: 85%">
+									<div th:if="${param.error}" class="alert alert-warning">
+										<!-- <label class="error" th:text="#{login.invalid}">Invalid username and password.</label> -->
+										<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a> Invalid <strong>username</strong> and <strong>password</strong>.
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<div class="content-wrapper" id="page-content" th:fragment="content">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-tile panel-body">
+					<h4>Dashboard</h4>
+			  </div> 
+		</div>
+	</div>			  
+	<div class="row">
+		<div class="col-sm-4 col-xl-4 ">
+		   <div class="panel panel-tile text-center br-a br-grey">
+		      <div class="panel-body">
+		         <h1>8 / 1387</h1>
+		         <h6 class="text-success text-uppercase">Current Applications</h6>
+		      </div>
+		      <div class="panel-footer"><span class="fs11">
+		          <i class="fa fa-arrow-up text-success"></i> 3% INCREASE <b>1W AGO</b> </span>
+		      </div>
+		   </div>
+		</div>
+		<div class="col-sm-4 col-xl-4">
+		   <div class="panel panel-tile text-center br-a br-grey">
+		      <div class="panel-body">
+		         <h1>1</h1>
+		         <h6 class="text-success text-uppercase">Applications at 'N'</h6>
+		      </div>
+		      <div class="panel-footer"><span class="fs11"> 
+		      	<i class="fa fa-arrow-up text-success"></i> 1% INCREASE <b>1W AGO</b> </span>
+		      </div>
+		   </div>
+		</div>
+		<div class="col-sm-4 col-xl-4">
+		   <div class="panel panel-tile text-center br-a br-grey">
+		      <div class="panel-body">
+		         <h1>1</h1>
+		         <h6 class="text-success text-uppercase">Applications at 'N-1'</h6>
+		      </div>
+		      <div class="panel-footer"><span class="fs11"> 
+		         <i class="fa fa-arrow-up text-success"></i> 1% INCREASE <b>1W AGO</b>
+		         </span>
+		      </div>
+		   </div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					<h4>Application Currency</h4>
+					<table id="AllAppsCurrencyDetails" class="table table-hover table-responsive table-bordered" width="100%">					
+					</table>					
+				</div>
+			</div>
+		</div>
+	</div>	
+	
+    <script type="text/javascript">
+$(document).ready(function() {		
+	getAllAppsCurrencyDetails();
+} );
+</script>
+
+<script th:src="@{/custom/js/page/dashboard.js}"></script>     
+   
+</div>
+

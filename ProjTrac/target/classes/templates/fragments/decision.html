@@ -1,0 +1,82 @@
+<div class="content-wrapper" id="page-content" th:fragment="content">
+
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="breadcrumb side">
+				<li><a href="/ptrac/"><i class="fa fa-home fa-lg"></i></a></li>
+				<li class="active"><a href="#">Decision Framework</a></li>
+			</ul>
+		</div>	
+	</div>
+		
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					<h4>Application List</h4>
+					
+					<table id="ApplicationData" class="table table-hover table-responsive table-bordered">  
+				        <tbody>  
+				                        
+				        </tbody>  
+				    </table>  
+					<!-- <button type="button" class="evaluate-row">Evaluate</button>  -->
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					<h4>Application Details <span id="appDetails"></span></h4>
+					<table id="ApplicationDetails" class="table table-hover table-responsive table-bordered">  
+				        <tbody>  
+				                        
+				        </tbody>  
+				    </table>  
+    				<p align="right"><button type="button" class="btn btn-primary" id="btnDecisionSave" onclick="saveDecision()"><i class="fa fa-floppy-o">&nbsp;</i>&nbsp;Save&nbsp;</button></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function() {			
+			loadApplication();
+			$("#btnDecisionSave").hide();
+		
+		} );
+		
+		</script>
+		<script th:src="@{/custom/js/page/decision.js}"></script>
+		<script th:src="@{/custom/js/plugins/dataTables.buttons.min.js}"></script>
+		<script th:src="@{/custom/js/plugins/buttons.flash.min.js}"></script>
+		<script th:src="@{/custom/js/plugins/jszip.min.js}"></script>
+		<script th:src="@{/custom/js/plugins/pdfmake.min.js}"></script>
+		<script th:src="@{/custom/js/plugins/vfs_fonts.js}"></script>
+		<script th:src="@{/custom/js/plugins/buttons.html5.min.js}"></script>
+		<script th:src="@{/custom/js/plugins/buttons.print.min.js}"></script>
+		
+		<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" /> -->
+		<div id="popupViewDF"  class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+              <div class="modal-dialog modal-lg">
+
+                     <!-- Modal content-->
+                     <div class="modal-content" style="width:500px; margin: 0px auto;">
+                           <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  <h4 class="modal-title">Alert!</h4>
+                           </div>
+                           <div class="modal-body application-modal-body">
+                                  <input type="hidden" id="appId" />
+                                  <input type="hidden" id="lob" />
+                                  <input type="hidden" id="name" />
+                                  Are you sure you want to approve the recommended versions?
+                           </div>
+                           <div class="modal-footer">
+                                  <button type="button" class="btn btn-success" id="btn-save" onclick="updateApprvStatus()">Yes</button>
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                           </div>
+                     </div>
+              </div>
+       </div>
+</div>
